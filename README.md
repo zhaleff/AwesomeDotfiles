@@ -15,7 +15,6 @@ Fork it. Star it. Add your own.
 
 </div>
 
----
 ## Table of Contents
 - [Arch Linux](#arch-linux)
   - [Hyprland — Quickshell](#hyprland--quickshell)
@@ -31,7 +30,7 @@ Fork it. Star it. Add your own.
 - [XFCE](#xfce)
 - [Cinnamon](#cinnamon)
 - [Contributing](#contributing)
----
+#
 ## Arch Linux
 ### Hyprland — Quickshell
 Dotfiles where [Quickshell](https://quickshell.outfoxxed.me/) (a QML-based shell toolkit) is a primary or significant component. These are complete personal dotfile repositories, not standalone shells or frameworks.
@@ -99,8 +98,7 @@ Classic and proven tiling window managers for the Xorg display server.
 - [bakkeby/dwm-flexipatch](https://github.com/bakkeby/dwm-flexipatch) — dwm with compile-time patch selection for a fully custom, minimal build.
 - [siduck/chadwm](https://github.com/siduck/chadwm) — dwm fork with pre-applied aesthetic patches and ready-to-use scripts.
 - [bookercodes/dotfiles](https://github.com/bookercodes/dotfiles) — i3 setup with a clean bar and developer-focused tooling. *(archived)*
----
-## NixOS
+# NixOS
 NixOS configs use the Nix language for fully reproducible, declarative systems. Most work on other distros via `home-manager`.
 - [fufexan/dotfiles](https://github.com/fufexan/dotfiles) — NixOS-based Hyprland configurations focused on reproducibility and cross-compatibility.
 - [Misterio77/nix-config](https://github.com/Misterio77/nix-config) — Multi-host NixOS configuration with flakes, Hyprland, and consistent theming across machines.
@@ -108,21 +106,17 @@ NixOS configs use the Nix language for fully reproducible, declarative systems. 
 - [viperML/dotfiles](https://github.com/viperML/dotfiles) — Modern NixOS flake config with Hyprland and custom modules.
 - [notusknot/dotfiles-nix](https://github.com/notusknot/dotfiles-nix) — Aesthetic NixOS setup with flakes and a minimal but polished Hyprland config.
 - [0xfbad/dotfiles](https://github.com/0xfbad/dotfiles) — NixOS and Hyprland configuration using Quickshell for desktop overlays and animated wallpaper transitions. *(also listed under Quickshell)*
----
 ## Fedora
 - [m3tam3re/dotfiles](https://github.com/m3tam3re/dotfiles) — Fedora-based Hyprland config with clear documentation and easy installation.
 - [solopasha/hyprland-dotfiles](https://github.com/solopasha/hyprland-dotfiles) — Hyprland rice tested on both Arch and Fedora Workstation.
----
 ## Debian · Ubuntu
 - [JaKooLit/Ubuntu-Hyprland](https://github.com/JaKooLit/Ubuntu-Hyprland) — Automated Hyprland install script and dotfiles specifically for Ubuntu-based distros.
 - [JaKooLit/Debian-Hyprland](https://github.com/JaKooLit/Debian-Hyprland) — The same feature-rich Hyprland experience adapted for Debian stable.
----
 ## Distro-Agnostic
 Configurations built to work across multiple distributions or using universal shell tooling.
 - [mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles) — Legendary macOS/Linux shell dotfiles. A reference-grade bash/zsh configuration.
 - [webpro/dotfiles](https://github.com/webpro/dotfiles) — Elegant, well-documented dotfiles with modular shell management.
 - [alrra/dotfiles](https://github.com/alrra/dotfiles) — Cross-platform dotfiles covering macOS and Ubuntu with automatic setup scripts.
----
 ## KDE Plasma
 Complete personal dotfiles for the KDE Plasma desktop environment (KWin, Plasma 6, etc.).
 - [prasanthrangan/dotfiles](https://github.com/prasanthrangan/dotfiles) — Full Arch KDE Plasma configuration with custom themes, glass effects, and integrated VSCode styling.
@@ -150,7 +144,6 @@ Complete personal dotfiles for the Cinnamon desktop environment (Linux Mint focu
 - [RaulMurillo/dotfiles-gui](https://github.com/RaulMurillo/dotfiles-gui) — Linux Mint Cinnamon GUI customization with fancy scripts and installer.
 - [mstuttgart/dotfiles](https://github.com/mstuttgart/dotfiles) — Personal Cinnamon workstation dotfiles and helper scripts for Linux Mint 22.
 
----
 ### Niri
 Niri is a scrollable-tiling Wayland compositor. Its dotfiles tend to be minimal, modern, and visually sharp.
 
@@ -159,7 +152,6 @@ Niri is a scrollable-tiling Wayland compositor. Its dotfiles tend to be minimal,
 - [cptn-cosmo/dotfiles](https://github.com/cptn-cosmo/dotfiles) — Niri setup showcased in the official compositor discussion thread. Clean aesthetic with modular, well-documented config.
 - [New9c/workflow](https://github.com/New9c/workflow) — Productivity-focused personal workflow on Niri with a minimal shell and cohesive theming across all applications.
 
----
 
 ### AwesomeWM
 AwesomeWM is r/unixporn's classic Lua-configured WM — highly scriptable, endlessly customizable.
@@ -172,7 +164,6 @@ AwesomeWM is r/unixporn's classic Lua-configured WM — highly scriptable, endle
 - [eromatiya/the-glorious-dotfiles](https://github.com/eromatiya/the-glorious-dotfiles) — AwesomeWM setup collection with macOS Big Sur, GNOME, and original aesthetic variants. Functionally rich beyond just looks.
 - [addy-dclxvi/almighty-dotfiles](https://github.com/addy-dclxvi/almighty-dotfiles) — Encyclopedic dump of configs spanning Openbox, i3, dwm, Fvwm, bspwm, and more. A historical reference for serious ricers.
 
----
 
 ### Qtile
 Qtile is a WM configured entirely in Python — popular among ricers who prefer scripting over Lua or C.
@@ -180,7 +171,6 @@ Qtile is a WM configured entirely in Python — popular among ricers who prefer 
 - [Darkkal44/Cozytile](https://github.com/Darkkal44/Cozytile) — Cozy Qtile rice with pywal dynamic theming, automatic laptop/PC bar detection, multiple bundled themes, and a full automated installer.
 - [antoniosarosi/dotfiles](https://github.com/antoniosarosi/dotfiles) — Multi-WM dotfiles covering Qtile, Spectrwm, Openbox, Xmonad, and i3, all with consistent styling and a custom Qtile widget library.
 
----
 
 ### Openbox
 Openbox is a lightweight stacking WM beloved for its flexibility and extremely low resource usage.
@@ -189,7 +179,7 @@ Openbox is a lightweight stacking WM beloved for its flexibility and extremely l
 - [addy-dclxvi/openbox-theme-collections](https://github.com/addy-dclxvi/openbox-theme-collections) — Massive collection of handcrafted Openbox themes spanning dozens of visual styles from flat to retro. Essential companion for any Openbox setup.
 - [Stardust-kyun/dotfiles](https://github.com/Stardust-kyun/dotfiles) — Clean Openbox setup with custom eww widgets, unified Catppuccin theming, and a polished tint2 bar. Actively maintained.
 
----
+
 
 ### Additional Hyprland — General
 
@@ -199,7 +189,7 @@ Openbox is a lightweight stacking WM beloved for its flexibility and extremely l
 - [Maciejonos/dotfiles](https://github.com/Maciejonos/dotfiles) — Hyprland setup with static and dynamic theming via Matugen/pywal, multiple Waybar themes, Walker launcher, and straightforward config switching.
 - [AnanyTanwar/hyprland-dotfiles](https://github.com/AnanyTanwar/hyprland-dotfiles) — Modular Hyprland rice with a custom theme-switcher that auto-generates and applies color palettes across all apps from JSON palette definitions.
 
----
+
 
 ### Additional bspwm
 
@@ -208,14 +198,14 @@ Openbox is a lightweight stacking WM beloved for its flexibility and extremely l
 - [janleigh/dotfiles](https://github.com/janleigh/dotfiles) — Minimalist bspwm configuration with a soft Rosé Pine palette, clean Polybar, and carefully chosen fonts. Aesthetic-first, distraction-free.
 - [D3Ext/aesthetic-wallpapers](https://github.com/D3Ext/aesthetic-wallpapers) — Curated wallpaper collection designed specifically for dark, aesthetic rices. Heavily used alongside bspwm and Hyprland setups.
 
----
+
 
 ### Additional Sway
 
 - [maximbaz/dotfiles](https://github.com/maximbaz/dotfiles) — Feature-complete Sway dotfiles with Waybar, kanshi for multi-monitor management, mako notifications, swaylock, and thorough documentation.
 - [nuccitheboss/dotfiles](https://github.com/nuccitheboss/dotfiles) — Sway rice with a focus on keyboard-driven workflow, clean Waybar, and a muted Nord-adjacent palette suited for long work sessions.
 
----
+
 
 ### Additional i3
 
@@ -223,7 +213,7 @@ Openbox is a lightweight stacking WM beloved for its flexibility and extremely l
 - [unix121/i3wm-themer](https://github.com/unix121/i3wm-themer) — i3wm theming script collection with multiple pre-built themes for bars, terminals, and palettes — a great launchpad for any i3 rice.
 - [Diolinux/photon-i3](https://github.com/Diolinux/photon-i3) — Polished i3 setup from a prominent Brazilian Linux educator. Clean layout, Polybar, Rofi, and a consistent Dracula-inspired color scheme.
 
----
+
 
 ### Additional NixOS
 
@@ -232,7 +222,7 @@ Openbox is a lightweight stacking WM beloved for its flexibility and extremely l
 - [Misterio77/nix-config](https://github.com/Misterio77/nix-config) — Multi-host NixOS flake config with Hyprland and consistent theming across machines. One of the most-cited home-manager setups in the community.
 - [aaronleopold/dotfiles](https://github.com/aaronleopold/dotfiles) — Catppuccin-unified NixOS setup with detailed home-manager configuration for a cohesive and reproducible desktop.
 
----
+
 
 ### Additional GNOME
 
@@ -241,7 +231,7 @@ Openbox is a lightweight stacking WM beloved for its flexibility and extremely l
 - [GabrielTenma/dotfiles-gnm](https://github.com/GabrielTenma/dotfiles-gnm) — GNOME-only dotfiles with a full installer and complete extension configuration out of the box.
 - [SkyW4r33x/dotfiles-GNOME](https://github.com/SkyW4r33x/dotfiles-GNOME) — Automated GNOME environment setup script for Debian and Kali-based systems with custom theming.
 
----
+
 
 ### Additional KDE Plasma
 
@@ -250,14 +240,14 @@ Openbox is a lightweight stacking WM beloved for its flexibility and extremely l
 - [TrueMyst/dotfiles-kde](https://github.com/TrueMyst/dotfiles-kde) — Arch KDE Plasma configs with Gruvbox-inspired styling and full desktop customization.
 - [empr0r/aperture-dotfiles](https://github.com/empr0r/aperture-dotfiles) — Sleek Portal/Aperture Science-inspired KDE Plasma 6 rice focused on minimalist productivity.
 
----
+
 
 ### Additional XFCE
 
 - [mehedirm6244/Miserable_Xfce](https://github.com/mehedirm6244/Miserable_Xfce) — Animated XFCE desktop with transitions, custom eww widgets, and a complete aesthetic overhaul that makes XFCE look genuinely stunning.
 - [rejarevaldy/dotfiles](https://github.com/rejarevaldy/dotfiles) — Full XFCE Linux configuration with custom panels, consistent icon theming, and carefully tuned compositor settings.
 
----
+
 
 ### Distro-Agnostic — Shell & Terminal
 Universal shell and terminal configs that pair well with any WM or DE.
@@ -269,7 +259,6 @@ Universal shell and terminal configs that pair well with any WM or DE.
 - [rose-pine/rose-pine-theme](https://github.com/rose-pine/rose-pine-theme) — Soft, warm pine and soho-inspired palette. Ports across terminals, editors, WM configs, and browsers. A staple in cozy, muted aesthetics.
 - [zellij-org/zellij](https://github.com/zellij-org/zellij) — Modern terminal multiplexer with a clean default UI and extensive theming support. Increasingly used alongside Kitty and WezTerm in current rices.
 
----
 
 ## Contributing
 
@@ -288,7 +277,7 @@ Universal shell and terminal configs that pair well with any WM or DE.
 - Dotfiles only — no standalone shells, toolkits, plugins, or frameworks
 - No private or inaccessible repositories
 
----
+
 
 <div align="center">
 Made by the Linux ricing community.
