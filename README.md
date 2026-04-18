@@ -42,7 +42,8 @@ Fork it. Star it. Add your own.
 ### Hyprland — Quickshell
 Dotfiles where [Quickshell](https://quickshell.outfoxxed.me/) (a QML-based shell toolkit) is a primary or significant component. These are complete personal dotfile repositories, not standalone shells or frameworks.
 
-- [notcandy001/Moonveil](https://github.com/notcandy001/Moonveil) — Hyprland dotfiles with a self-maintained Quickshell bar (Moonshell), barcode lockscreen, dynamic media controls, and a full QML control center. Requires Matugen. <details><summary>📸 Preview</summary><br><!-- ADD IMAGE HERE: ![preview](url) --></details>
+- [notcandy001/Moonveil](https://github.com/notcandy001/Moonveil) — Hyprland dotfiles with a self-maintained Quickshell bar (Moonshell), barcode lockscreen, dynamic media controls, and a full QML control center. Requires Matugen. <details><summary>📸 Preview</summary><br><img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/b83e713b-4599-4275-b1d2-036edc2f7ab9" />
+</details>
 
 - [caioax/lyne-dots](https://github.com/caioax/lyne-dots) — Full Arch rice managed with GNU Stow. Custom Quickshell bar, launcher, notifications, quick settings, and power menu in QML. 11-theme system with live switching and built-in wallpaper picker. <details><summary>📸 Preview</summary><br><!-- ADD IMAGE HERE: ![preview](url) --></details>
 
