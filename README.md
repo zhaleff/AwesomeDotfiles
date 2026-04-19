@@ -56,4 +56,4 @@ https://github.com/user-attachments/assets/2ca36e65-d708-42ad-af31-07ed849dfc0f
 - **[unknown/linux-rice](#)** — A personalized Linux rice showcasing custom styling, theming experiments, and user-defined visual enhancements across the desktop
 
 
-# site web: https://awesome-dotfiles.web.app
+site web: https://awesome-dotfiles.web.app
