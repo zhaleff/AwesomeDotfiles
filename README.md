@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="1024" height="511" alt="awesome-dotfiles" src="https://github.com/user-attachments/assets/732e8a4c-7e9c-4be3-8c81-730e7d4b142b" />
+<img width="1348" height="688" alt="awesome-logo" src="https://github.com/user-attachments/assets/f6dc10de-2901-4995-a5d6-933842294f46" />
 
 # awesome-dotfiles
 
