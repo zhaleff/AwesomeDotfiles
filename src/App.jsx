@@ -5,7 +5,6 @@ import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/Navbar'
 import ScrollToTop from './components/ScrollToTop'
 import Footer from './components/Footer'
-
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const Submit = lazy(() => import('./pages/Submit'))
