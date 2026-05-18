@@ -18,9 +18,6 @@ export default function About() {
             <h1 className="text-6xl sm:text-7xl lg:text-8xl font-medium tracking-[-0.05em] leading-[0.9] text-white mb-0">
               About <br /> <span className="text-accent">This Proyect</span>
             </h1>
-            <div className="text-6xl sm:text-7xl lg:text-8xl font-medium tracking-[-0.05em] leading-[0.9] text-[#e8ff47] mt-1">
-
-            </div>
           </div>
         </div>
       </motion.div>
@@ -106,13 +103,6 @@ export default function About() {
             Here you can find various dotfiles created by the community. You can definitely find inspiration in them; everyone has their own ricing style. You can even go beyond simply trying them out and modify them to your liking. No more asking someone else for their configuration; upload your own configuration right here and share it with the world. Easy to upload, easy to view, no cookies, no registration, nothing.
           </p>
 
-          <div className="flex flex-wrap gap-3 pt-2">
-            {['Community driven', 'Manually reviewed', 'No accounts needed', 'Always free'].map((tag) => (
-              <span key={tag} className="px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/8 text-xs text-white/40">
-                {tag}
-              </span>
-            ))}
-          </div>
         </div>
       </motion.div>
       <div className="border-t border-white/5 mb-28" />

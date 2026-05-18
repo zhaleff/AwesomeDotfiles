@@ -20,7 +20,7 @@ const STEPS = ['Screenshot', 'Details', 'Config', 'Review']
 function Label({ children, required }) {
   return (
     <label className="block text-[11px] text-white/30 uppercase tracking-widest mb-2.5">
-      {children}{required && <span className="text-[#e8ff47] ml-1">*</span>}
+      {children}{required && <span className="text-accent ml-1">*</span>}
     </label>
   )
 }
@@ -29,7 +29,7 @@ function Field({ error, className, ...props }) {
     <input
       className={clsx(
         'w-full px-4 py-3 rounded-xl bg-white/[0.04] border text-sm text-white placeholder:text-white/15 outline-none',
-        error ? 'border-red-500/40' : 'border-white/8 focus:border-[#e8ff47]/30 focus:bg-white/[0.06]',
+        error ? 'border-red-500/40' : 'border-white/8 focus:border-accent/30 focus:bg-white/[0.06]',
         className
       )}
       {...props}
@@ -39,7 +39,7 @@ function Field({ error, className, ...props }) {
 function Textarea({ ...props }) {
   return (
     <textarea
-      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/8 text-sm text-white placeholder:text-white/15 outline-none resize-none focus:border-[#e8ff47]/30 focus:bg-white/[0.06]"
+      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/8 text-sm text-white placeholder:text-white/15 outline-none resize-none focus:border-accent/30 focus:bg-white/[0.06]"
       {...props}
     />
   )
@@ -55,7 +55,7 @@ function Chips({ options, value, onChange }) {
           className={clsx(
             'px-3.5 py-1.5 rounded-full text-xs border',
             value === opt
-              ? 'bg-[#e8ff47] border-[#e8ff47] text-black'
+              ? 'bg-accent border-accent text-black'
               : 'bg-white/[0.03] border-white/8 text-white/35 hover:text-white hover:border-white/20'
           )}
         >
@@ -77,14 +77,14 @@ function StepIndicator({ current }) {
           )}>
             <div className={clsx(
               'w-5 h-5 rounded-full flex items-center justify-center text-[10px]',
-              i < current ? 'bg-[#e8ff47] text-black' : i === current ? 'border border-[#e8ff47] text-[#e8ff47]' : 'border border-white/10 text-white/20'
+              i < current ? 'bg-accent text-black' : i === current ? 'border border-accent text-accent' : 'border border-white/10 text-white/20'
             )}>
               {i < current ? '✓' : i + 1}
             </div>
             <span className="text-[11px] hidden sm:block">{label}</span>
           </div>
           {i < STEPS.length - 1 && (
-            <div className={clsx('w-8 h-px', i < current ? 'bg-[#e8ff47]/40' : 'bg-white/8')} />
+            <div className={clsx('w-8 h-px', i < current ? 'bg-accent/40' : 'bg-white/8')} />
           )}
         </div>
       ))}
@@ -168,7 +168,7 @@ export default function Submit() {
   return (
     <div className="max-w-xl mx-auto px-4 sm:px-6 pt-28 pb-24">
       <div className="mb-10">
-        <p className="text-[11px] uppercase tracking-[0.25em] text-[#e8ff47] mb-3">New submission</p>
+        <p className="text-[11px] uppercase tracking-[0.25em] text-accent mb-3">New submission</p>
         <h1 className="text-3xl text-white mb-1">Share your setup</h1>
         <p className="text-sm text-white/30">Step {step + 1} of {STEPS.length} — {STEPS[step]}</p>
       </div>
@@ -186,7 +186,7 @@ export default function Submit() {
                   {...getRootProps()}
                   className={clsx(
                     'relative rounded-2xl border-2 border-dashed cursor-pointer overflow-hidden',
-                    isDragActive ? 'border-[#e8ff47]/50 bg-[#e8ff47]/5' : 'border-white/8 hover:border-white/16 bg-white/[0.02]'
+                    isDragActive ? 'border-accent/50 bg-accent' : 'border-white/8 hover:border-white/16 bg-white/[0.02]'
                   )}
                 >
                   <input {...getInputProps()} />
@@ -218,7 +218,7 @@ export default function Submit() {
                   </AnimatePresence>
                 </div>
               </div>
-              <button type="button" onClick={next} className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#e8ff47] hover:bg-[#d4eb30] text-black text-sm">
+              <button type="button" onClick={next} className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-accent hover:bg-accent text-black text-sm">
                 Continue <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" />
               </button>
             </motion.div>
@@ -253,7 +253,7 @@ export default function Submit() {
                 <button type="button" onClick={() => setStep(0)} className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white/5 border border-white/8 text-white/40 hover:text-white text-sm">
                   <FontAwesomeIcon icon={faArrowLeft} className="w-3.5 h-3.5" /> Back
                 </button>
-                <button type="button" onClick={next} className="flex items-center justify-center gap-2 flex-1 py-3 rounded-xl bg-[#e8ff47] hover:bg-[#d4eb30] text-black text-sm">
+                <button type="button" onClick={next} className="flex items-center justify-center gap-2 flex-1 py-3 rounded-xl bg-accent hover:bg-accent text-black text-sm">
                   Continue <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -304,7 +304,7 @@ export default function Submit() {
                 <button type="button" onClick={() => setStep(1)} className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white/5 border border-white/8 text-white/40 hover:text-white text-sm">
                   <FontAwesomeIcon icon={faArrowLeft} className="w-3.5 h-3.5" /> Back
                 </button>
-                <button type="button" onClick={() => setStep(3)} className="flex items-center justify-center gap-2 flex-1 py-3 rounded-xl bg-[#e8ff47] hover:bg-[#d4eb30] text-black text-sm">
+                <button type="button" onClick={() => setStep(3)} className="flex items-center justify-center gap-2 flex-1 py-3 rounded-xl bg-accent hover:bg-accent text-black text-sm">
                   Review <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -338,7 +338,7 @@ export default function Submit() {
                 <button type="button" onClick={() => setStep(2)} className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white/5 border border-white/8 text-white/40 hover:text-white text-sm">
                   <FontAwesomeIcon icon={faArrowLeft} className="w-3.5 h-3.5" /> Back
                 </button>
-                <button type="submit" disabled={submitting} className="flex items-center justify-center gap-2 flex-1 py-3 rounded-xl bg-[#e8ff47] hover:bg-[#d4eb30] disabled:opacity-40 text-black text-sm">
+                <button type="submit" disabled={submitting} className="flex items-center justify-center gap-2 flex-1 py-3 rounded-xl bg-accent hover:bg-accent disabled:opacity-40 text-black text-sm">
                   {submitting ? <FontAwesomeIcon icon={faCircleNotch} className="animate-spin w-4 h-4" /> : <><span>Submit rice</span><FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" /></>}
                 </button>
               </div>

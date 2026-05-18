@@ -19,7 +19,7 @@ export default function RiceCard({ rice, index = 0 }) {
             <img
               src={rice.image_url}
               alt={rice.title}
-              className="w-full h-full object-cover  group-hover:scale-[1.05]"
+              className="w-full h-full object-cover  group-hover:scale-[1.05] transition-all duration-500 "
               loading="lazy"
             />
           ) : (
@@ -34,7 +34,7 @@ export default function RiceCard({ rice, index = 0 }) {
             </span>
           )}
           {rice.palette?.length > 0 && (
-            <div className="absolute bottom-2.5 right-2.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="absolute bottom-2.5 right-2.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-colors transition-opacity duration-300">
               {rice.palette.slice(0, 5).map((color, i) => (
                 <div key={i} className="w-3 h-3 rounded-sm border border-white/10 shadow-sm" style={{ backgroundColor: color }} />
               ))}
