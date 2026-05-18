@@ -1,5 +1,5 @@
 
-### `~/dotfiles` — a curated gallery of Linux desktop setups
+## `~/dotfiles` — a curated gallery of Linux desktop setups
 
 <br>
 
