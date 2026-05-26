@@ -13,8 +13,7 @@ const Admin = lazy(() => import('./pages/Admin'))
 const Themes = lazy(() => import('./pages/Themes'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const AdminLogin = lazy(() => import('./pages/AdminLogin'))
-const Wiki = lazy(() => import('./pages/Wiki'))
-const WikiDetail = lazy(() => import('./pages/WikiDetail'))
+
 
 function PageLoader() {
   return (
@@ -42,8 +41,7 @@ export default function App() {
                 <Route path="/rice/:id" element={<RiceDetail />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin" element={<Admin />} />
-                <Route path="/wiki" element={<Wiki />} />
-                <Route path="/wiki/:id" element={<WikiDetail />} />
+
               </Routes>
             </Suspense>
           </main>

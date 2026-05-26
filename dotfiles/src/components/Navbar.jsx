@@ -8,9 +8,8 @@ import clsx from 'clsx'
 
 const navLinks = [
   { label: 'Gallery', to: '/gallery' },
-  { label: 'Themes', to: '/themes' },
   { label: 'About', to: '/about' },
-  { label: 'Wiki', to: '/wiki' },
+
 ]
 
 export default function Navbar() {
@@ -32,7 +31,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4">
+      <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-6">
         <motion.header
           animate={
             scrolled
@@ -54,7 +53,7 @@ export default function Navbar() {
             overflow: 'hidden',
           }}
         >
-          <div className="h-12 flex items-center gap-6 px-4">
+          <div className="h-12 flex items-center gap-6 px-6">
             <Link
               to="/"
               className="flex items-center gap-2 flex-shrink-0 group"
