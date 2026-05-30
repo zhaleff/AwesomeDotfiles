@@ -256,6 +256,19 @@ submit → get reviewed → appear in the gallery + this README
 
 <br>
 
+## ✦ Star History
+
+<a href="https://star-history.com/#awesome-dotfiles/dotfiles&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=awesome-dotfiles/dotfiles&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=awesome-dotfiles/dotfiles&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=awesome-dotfiles/dotfiles&type=Date" />
+  </picture>
+</a>
+
+<br>
+
+
 <div align="center">
 
 made with ♥ by the community · [website](https://awesome-dotfiles.vercel.app) · [submit your dots](https://awesome-dotfiles.vercel.app)
