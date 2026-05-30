@@ -12,7 +12,7 @@
 
 <br>
 
-> Every screenshot, full color palette, and setup detail lives at **[awesome-dotfiles.web.app](https://awesome-dotfiles.web.app)**  
+> Every screenshot, full color palette, and setup detail lives at **[awesome-dotfiles.web.app](https://awesome-dotfiles.vercel.app)**  
 > This README is the index — the gallery is the destination.
 
 </div>
