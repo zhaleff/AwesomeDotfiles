@@ -64,7 +64,7 @@ export default function About() {
         </div>
         <div className="flex flex-col gap-8">
           <p className="text-sm text-white/35 leading-relaxed">
-            The entire stack is serverless. No backend to maintain, no servers to scale. Submissions go straight to Firestore, images land on UploadCare CDN, and the whole thing is hosted on Firebase. Fast, cheap, and reliable enough for what this needs to be.
+            The entire stack is serverless. No backend to maintain, no servers to scale. Submissions go straight to SupaBase, images land on UploadCare CDN, and the whole thing is hosted on Firebase. Fast, cheap, and reliable enough for what this needs to be.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[

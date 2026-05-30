@@ -84,7 +84,7 @@ export default function Navbar() {
                   to={to}
                   className={({ isActive }) =>
                     clsx(
-                      'relative px-3 py-1.5 text-sm rounded-full transition-colors',
+                      'relative px-3 py-1.5 text-sm  rounded-full transition-colors',
                       isActive
                         ? 'text-text'
                         : 'text-muted hover:text-text/70'
