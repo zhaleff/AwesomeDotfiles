@@ -10,7 +10,6 @@ const About = lazy(() => import('./pages/About'))
 const Submit = lazy(() => import('./pages/Submit'))
 const RiceDetail = lazy(() => import('./pages/RiceDetail'))
 const Admin = lazy(() => import('./pages/Admin'))
-const Themes = lazy(() => import('./pages/Themes'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const AdminLogin = lazy(() => import('./pages/AdminLogin'))
 
@@ -35,7 +34,6 @@ export default function App() {
               <Routes>
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/themes" element={<Themes />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/submit" element={<Submit />} />
                 <Route path="/rice/:slug" element={<RiceDetail />} />
