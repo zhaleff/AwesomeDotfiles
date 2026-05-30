@@ -11,7 +11,7 @@ export default function RiceCard({ rice, index = 0 }) {
       transition={{ duration: 0.35, delay: index * 0.02, ease: [0.25, 0.1, 0.25, 1] }}
     >
       <Link
-        to={`/rice/${rice.id}`}
+        to={`/rice/${rice.slug}`}
         className="group block border border-white/5 hover:border-white/10 rounded-2xl overflow-hidden bg-white/[0.02] transition-colors duration-300"
       >
         <div className="aspect-video overflow-hidden relative bg-black">

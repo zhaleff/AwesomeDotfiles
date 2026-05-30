@@ -17,6 +17,16 @@ const LICENSE_OPTIONS = ['MIT', 'GPL-3.0', 'Apache-2.0', 'Unlicense', 'BSD-3-Cla
 
 const STEPS = ['Screenshot', 'Details', 'Config', 'Review']
 
+function generateSlug(author, title) {
+  const base = `${author || 'anonymous'}-${title}`
+    .toLowerCase()
+    .replace(/[^a-z0-9\-]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+  const suffix = Math.random().toString(36).slice(2, 8)
+  return `${base}-${suffix}`
+}
+
 function Label({ children, required }) {
   return (
     <label className="block text-[11px] text-white/30 uppercase tracking-widest mb-2.5">
@@ -24,6 +34,7 @@ function Label({ children, required }) {
     </label>
   )
 }
+
 function Field({ error, className, ...props }) {
   return (
     <input
@@ -36,6 +47,7 @@ function Field({ error, className, ...props }) {
     />
   )
 }
+
 function Textarea({ ...props }) {
   return (
     <textarea
@@ -44,6 +56,7 @@ function Textarea({ ...props }) {
     />
   )
 }
+
 function Chips({ options, value, onChange }) {
   return (
     <div className="flex flex-wrap gap-1.5">
@@ -138,6 +151,9 @@ export default function Submit() {
     try {
       const image_url = await uploadImage(imageFile)
       toast.loading('Saving...', { id: toastId })
+
+      const slug = generateSlug(data.author, data.title)
+
       const { error } = await supabase.from('rices').insert({
         title: data.title,
         author: data.author || 'anonymous',
@@ -145,6 +161,7 @@ export default function Submit() {
         github_url: data.githubUrl || '',
         notes: data.notes || '',
         wm, distro, palette, license, image_url,
+        slug,
         status: 'pending',
         views: 0, likes: 0, dislikes: 0,
       })
@@ -350,4 +367,3 @@ export default function Submit() {
     </div>
   )
 }
-
