@@ -16,7 +16,7 @@ export default function About() {
         <div className="flex flex-col lg:flex-row lg:items-end gap-12">
           <div className="flex-1">
             <h1 className="text-6xl sm:text-7xl lg:text-8xl font-medium tracking-[-0.05em] leading-[0.9] text-white mb-0">
-              About <br /> <span className="text-accent">This Proyect</span>
+              About <br /> <span className="text-accent">AwesomeDotfiles</span>
             </h1>
           </div>
         </div>
