@@ -38,7 +38,7 @@ export default function App() {
                 <Route path="/themes" element={<Themes />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/submit" element={<Submit />} />
-                <Route path="/rice/:id" element={<RiceDetail />} />
+                <Route path="/rice/:slug" element={<RiceDetail />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin" element={<Admin />} />
 

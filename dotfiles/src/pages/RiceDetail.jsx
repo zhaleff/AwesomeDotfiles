@@ -10,7 +10,6 @@ import {
   faThumbsUp,
   faThumbsDown,
   faShareAlt,
-  faDownload,
   faExpand,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons'
@@ -42,13 +41,9 @@ function CopyButton({ text }) {
 
 function Lightbox({ src, alt, onClose }) {
   useEffect(() => {
-    const h = (e) => {
-      if (e.key === 'Escape') onClose()
-    }
-
+    const h = (e) => { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', h)
     document.body.style.overflow = 'hidden'
-
     return () => {
       window.removeEventListener('keydown', h)
       document.body.style.overflow = ''
@@ -74,7 +69,6 @@ function Lightbox({ src, alt, onClose }) {
           onClick={(e) => e.stopPropagation()}
           className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
         />
-
         <button
           onClick={onClose}
           className="absolute top-6 right-6 w-10 h-10 rounded-full border border-border bg-surface text-muted hover:text-text transition-colors"
@@ -87,10 +81,11 @@ function Lightbox({ src, alt, onClose }) {
 }
 
 export default function RiceDetail() {
-  const { id } = useParams()
+  const { slug } = useParams()
   const navigate = useNavigate()
 
   const [rice, setRice] = useState(null)
+  const [riceId, setRiceId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [vote, setVote] = useState(null)
@@ -101,11 +96,8 @@ export default function RiceDetail() {
     try {
       const res = await fetch('https://ifconfig.me/ip')
       const ip = await res.text()
-
       const buf = new TextEncoder().encode(ip.trim())
-
       const hash = await crypto.subtle.digest('SHA-256', buf)
-
       return Array.from(new Uint8Array(hash))
         .map((b) => b.toString(16).padStart(2, '0'))
         .join('')
@@ -117,12 +109,11 @@ export default function RiceDetail() {
   useEffect(() => {
     async function fetchRice() {
       setLoading(true)
-
       try {
         const { data, error } = await supabase
           .from('rices')
           .select('*')
-          .eq('id', id)
+          .eq('slug', slug)
           .single()
 
         if (error || !data) {
@@ -132,48 +123,45 @@ export default function RiceDetail() {
         }
 
         setRice(data)
+        setRiceId(data.id)
 
-        if (!localStorage.getItem(`viewed_${id}`)) {
-          await supabase.rpc('increment_views', { row_id: id })
-          localStorage.setItem(`viewed_${id}`, '1')
+        if (!localStorage.getItem(`viewed_${slug}`)) {
+          await supabase.rpc('increment_views', { row_id: data.id })
+          localStorage.setItem(`viewed_${slug}`, '1')
         }
 
-        const localVote = localStorage.getItem(`vote_${id}`)
-
+        const localVote = localStorage.getItem(`vote_${slug}`)
         if (localVote) {
           setVote(localVote)
         } else {
           const ipHash = await getIpHash()
-
           const { data: existing } = await supabase
             .from('votes')
             .select('vote_type')
-            .eq('rice_id', id)
+            .eq('rice_id', data.id)
             .eq('vote_ip', ipHash)
             .maybeSingle()
 
           if (existing) {
             setVote(existing.vote_type)
-            localStorage.setItem(`vote_${id}`, existing.vote_type)
+            localStorage.setItem(`vote_${slug}`, existing.vote_type)
           }
         }
       } catch {
         setNotFound(true)
       }
-
       setLoading(false)
     }
 
     fetchRice()
-  }, [id])
+  }, [slug])
 
   async function handleVote(type) {
-    if (voting) return
-
+    if (voting || !riceId) return
     setVoting(true)
 
     try {
-      const localKey = `vote_${id}`
+      const localKey = `vote_${slug}`
       const localVote = localStorage.getItem(localKey)
       const ipHash = await getIpHash()
 
@@ -183,39 +171,32 @@ export default function RiceDetail() {
       if (localVote === type) {
         if (type === 'up') nl--
         else nd--
-
         localStorage.removeItem(localKey)
         setVote(null)
-
         await supabase
           .from('votes')
           .delete()
-          .eq('rice_id', id)
+          .eq('rice_id', riceId)
           .eq('vote_ip', ipHash)
       } else if (localVote) {
         if (localVote === 'up') nl--
         else nd--
-
         if (type === 'up') nl++
         else nd++
-
         localStorage.setItem(localKey, type)
         setVote(type)
-
         await supabase
           .from('votes')
           .update({ vote_type: type })
-          .eq('rice_id', id)
+          .eq('rice_id', riceId)
           .eq('vote_ip', ipHash)
       } else {
         if (type === 'up') nl++
         else nd++
-
         localStorage.setItem(localKey, type)
         setVote(type)
-
         await supabase.from('votes').insert({
-          rice_id: id,
+          rice_id: riceId,
           vote_ip: ipHash,
           vote_type: type,
         })
@@ -223,38 +204,21 @@ export default function RiceDetail() {
 
       await supabase
         .from('rices')
-        .update({
-          likes: Math.max(0, nl),
-          dislikes: Math.max(0, nd),
-        })
-        .eq('id', id)
+        .update({ likes: Math.max(0, nl), dislikes: Math.max(0, nd) })
+        .eq('id', riceId)
 
-      setRice((p) =>
-        p
-          ? {
-            ...p,
-            likes: Math.max(0, nl),
-            dislikes: Math.max(0, nd),
-          }
-          : null
-      )
+      setRice((p) => p ? { ...p, likes: Math.max(0, nl), dislikes: Math.max(0, nd) } : null)
     } catch {
       toast.error('Failed to vote')
     }
-
     setVoting(false)
   }
 
   async function handleShare() {
     const url = window.location.href
-
     if (navigator.share) {
       try {
-        await navigator.share({
-          title: rice.title,
-          text: rice.title,
-          url,
-        })
+        await navigator.share({ title: rice.title, text: rice.title, url })
       } catch { }
     } else {
       await navigator.clipboard.writeText(url)
@@ -274,30 +238,19 @@ export default function RiceDetail() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
         <h1 className="text-7xl font-black text-muted/10">404</h1>
-
         <p className="text-muted">This setup does not exist.</p>
-
-        <button
-          onClick={() => navigate('/')}
-          className="text-accent text-sm"
-        >
+        <button onClick={() => navigate('/')} className="text-accent text-sm">
           Back to gallery
         </button>
       </div>
     )
   }
 
-  const createdDate = rice.created_at
-    ? new Date(rice.created_at)
-    : null
-
+  const createdDate = rice.created_at ? new Date(rice.created_at) : null
   const likes = rice.likes ?? 0
   const dislikes = rice.dislikes ?? 0
-
   const total = likes + dislikes
-
-  const likePercent =
-    total > 0 ? Math.round((likes / total) * 100) : 0
+  const likePercent = total > 0 ? Math.round((likes / total) * 100) : 0
 
   return (
     <>
@@ -335,7 +288,6 @@ export default function RiceDetail() {
               alt={rice.title}
               className="w-full max-h-[700px] object-cover"
             />
-
             <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors flex items-center justify-center">
               <div className="opacity-0 hover:opacity-100 transition-opacity w-14 h-14 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white">
                 <FontAwesomeIcon icon={faExpand} />
@@ -353,7 +305,6 @@ export default function RiceDetail() {
                     {rice.wm}
                   </span>
                 )}
-
                 {rice.distro && (
                   <span className="px-3 py-1 rounded-full bg-surface border border-border text-muted text-xs uppercase tracking-wider">
                     {rice.distro}
@@ -370,18 +321,11 @@ export default function RiceDetail() {
                   <div className="w-8 h-8 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent font-bold text-xs">
                     {rice.author?.[0]?.toUpperCase() ?? '?'}
                   </div>
-
                   <span>{rice.author ?? 'anonymous'}</span>
                 </div>
-
                 {createdDate && (
-                  <span>
-                    {formatDistanceToNow(createdDate, {
-                      addSuffix: true,
-                    })}
-                  </span>
+                  <span>{formatDistanceToNow(createdDate, { addSuffix: true })}</span>
                 )}
-
                 <div className="flex items-center gap-2">
                   <FontAwesomeIcon icon={faEye} />
                   {rice.views ?? 0}
@@ -430,10 +374,7 @@ export default function RiceDetail() {
                       style={{ width: `${likePercent}%` }}
                     />
                   </div>
-
-                  <span className="text-xs text-muted">
-                    {likePercent}%
-                  </span>
+                  <span className="text-xs text-muted">{likePercent}%</span>
                 </div>
               </div>
             </div>
@@ -449,13 +390,9 @@ export default function RiceDetail() {
             {rice.notes && (
               <section>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs uppercase tracking-widest text-muted">
-                    Notes
-                  </span>
-
+                  <span className="text-xs uppercase tracking-widest text-muted">Notes</span>
                   <CopyButton text={rice.notes} />
                 </div>
-
                 <div className="rounded-2xl border border-border bg-surface overflow-hidden">
                   <pre className="p-6 text-sm text-muted overflow-x-auto whitespace-pre-wrap leading-relaxed font-mono">
                     {rice.notes}
@@ -470,41 +407,24 @@ export default function RiceDetail() {
               <div className="px-5 py-4 border-b border-border text-xs uppercase tracking-widest text-muted">
                 Details
               </div>
-
               {[
                 ['WM / DE', rice.wm],
                 ['Distro', rice.distro],
                 ['License', rice.license],
-                [
-                  'Published',
-                  createdDate
-                    ? format(createdDate, 'MMM d, yyyy')
-                    : null,
-                ],
+                ['Published', createdDate ? format(createdDate, 'MMM d, yyyy') : null],
               ]
                 .filter((r) => r[1])
                 .map(([label, value]) => (
-                  <div
-                    key={label}
-                    className="px-5 py-4 border-b border-border last:border-none"
-                  >
-                    <p className="text-[10px] uppercase tracking-widest text-muted mb-1">
-                      {label}
-                    </p>
-
-                    <p className="text-sm text-text">
-                      {value}
-                    </p>
+                  <div key={label} className="px-5 py-4 border-b border-border last:border-none">
+                    <p className="text-[10px] uppercase tracking-widest text-muted mb-1">{label}</p>
+                    <p className="text-sm text-text">{value}</p>
                   </div>
                 ))}
             </div>
 
             {rice.palette?.length > 0 && (
               <div className="rounded-2xl border border-border bg-surface p-5">
-                <div className="text-xs uppercase tracking-widest text-muted mb-4">
-                  Palette
-                </div>
-
+                <div className="text-xs uppercase tracking-widest text-muted mb-4">Palette</div>
                 <div className="flex flex-wrap gap-3">
                   {rice.palette.map((color, i) => (
                     <button
