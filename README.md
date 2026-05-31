@@ -72,12 +72,21 @@
 
 - **[notcandy001/Moonveil](https://github.com/notcandy001/Moonveil)** — `notcandy001`  
   Real workflow focus · hand-tuned · barcode-style lockscreen
-
-- **[linuxmobile/hyprland-dots](https://github.com/linuxmobile/hyprland-dots)** — `linuxmobile`  
+- **[AdhikariKapil/Hypr](https://github.com/AdhikariKapil/dotfiles)** — `Beyonder`  
+  . I combined bunch of config from bunch of people. Even tho I copied and tweaked different things
+  
+- **[linuxmobile/](https://github.com/linuxmobile/hyprland-dots)** — `linuxmobile` 
   First Hyprland rice · Rosé Pine palette · a community classic
 
-- **[leaf — Hyprland Aura Soft](https://github.com)** — `leaf`  
+- **[Aktyn — Hyprland Aura Soft](https://github.com/Aktyn/hyprland-setup)** — `leaf`  
   Aura aesthetic · soft palette · gentle tones, quietly elegant
+
+- **[leaf — Hyprland Aura Soft](https://github.com/Jotalea/i3-dots)** — `jotalea` 
+  this rice is inspired by the Geometry Dash level "Nullscapes", with the grayscale low-poly mountains background.
+
+
+- **[binarylinux — Hyprland Aura Soft](https://github.com/binarylinuxx/dots.git)** — `binarylinuxx`  
+  built from ground up by single person targeted to be minimal and follow material design
 
 - **[leaf — caelestiax](https://github.com/Axenide/Ambxst)** — `leaf`  
   Caelestiax frame · AI modules · extra integrations
