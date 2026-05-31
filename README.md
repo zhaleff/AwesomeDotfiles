@@ -70,6 +70,10 @@
 - **[caioax/lyne-dots](https://github.com/caioax/lyne-dots)** — `caioax`  
   Custom Quickshell components · distinctive Lyne aesthetic
 
+
+- **[LambBread/dotfiles](https://github.com/LambBread/my-dotfiles)** — `LambBread`  
+  Dotfile minimal but beautiful like coffee at sunset
+
 - **[notcandy001/Moonveil](https://github.com/notcandy001/Moonveil)** — `notcandy001`  
   Real workflow focus · hand-tuned · barcode-style lockscreen
 - **[AdhikariKapil/Hypr](https://github.com/AdhikariKapil/dotfiles)** — `Beyonder`  
