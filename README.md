@@ -92,11 +92,10 @@
 - **[binarylinux — Hyprland Aura Soft](https://github.com/binarylinuxx/dots.git)** — `binarylinuxx`  
   built from ground up by single person targeted to be minimal and follow material design
 
-- **[leaf — caelestiax](https://github.com/Axenide/Ambxst)** — `leaf`  
+- **[Axenide — caelestiax](https://github.com/Axenide/Ambxst)** — `leaf`  
   Caelestiax frame · AI modules · extra integrations
 
-- **[leaf — hyprland retro](https://github.com/Axenide/Ambxst)** — `leaf`  
-  Ambxst shell · retro frame · nostalgic take on the Hyprland desktop
+
 
 - **[cybersnake223/Hypr](https://github.com/Cybersnake223/Hypr)** — `cybersnake223`  
   Minimal & keyboard-driven · laptop-first · script-heavy · zero bloat
