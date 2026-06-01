@@ -92,7 +92,7 @@
 - **[binarylinux — Hyprland Aura Soft](https://github.com/binarylinuxx/dots.git)** — `binarylinuxx`  
   built from ground up by single person targeted to be minimal and follow material design
 
-- **[Axenide — caelestiax](https://github.com/Axenide/Ambxst)** — `leaf`  
+- **[Axenide — caelestiax](https://github.com/Axenide/Ambxst)** — `Axenide`  
   Caelestiax frame · AI modules · extra integrations
 
 
