@@ -49,8 +49,6 @@
 - **[cebem1nt/dotfiles](https://github.com/cebem1nt/dotfiles)** — `cebem1nt`  
   Modular & extensible · Waybar · swaync · rofi · Spicetify theme · light/dark switcher
 
-- **[anonymous — hyprland ambxst](https://github.com)** — `anonymous`  
-  Ambxst Quickshell · clean, well-designed modules
 
 - **[Darkkal44/Cozytile](https://github.com/Darkkal44/Cozytile)** — `Darkkal44`  
   Qtile on Hyprland · WM scripted entirely in Python
