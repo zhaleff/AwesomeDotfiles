@@ -139,6 +139,15 @@
 
 <br>
 
+
+### MangoWM
+
+> Dynamic and lightweight Wayland compositor based on dwl and wlroots
+
+- **[melatonia/meloworld-dotfiles](https://github.com/melatonia/meloworld-dotfiles)** — `melatonia`  
+  Beautiful dotfile created in mangowm, as beautiful as sunsets
+<br>
+
 ### KDE
 
 > Full-featured, deeply customizable. Catppuccin makes it sing.
@@ -178,19 +187,7 @@
 
 <br>
 
-### Other
-
-> Openbox, retro setups, and community history.
-
-- **[linuxmobile — old rice with openbox](https://github.com/linuxmobile)** — `linuxmobile`  
-  An old Openbox rice
-
-- **[linuxmobile — openbox & android old rice](https://github.com/linuxmobile)** — `linuxmobile`  
-  One of the first rices shared in r/unixporn · a piece of history
-
-<br>
-
-## ❄️ NixOS
+## NixOS
 
 > Declarative, reproducible, and increasingly beautiful. The future of dotfiles?
 
@@ -214,7 +211,7 @@
 
 <br>
 
-## 🚀 EndeavourOS
+## EndeavourOS
 
 > The friendliest path to Arch. Still gets great rices.
 
@@ -226,7 +223,7 @@
 
 <br>
 
-## 🎩 Fedora
+## Fedora
 
 > Corporate polish, community spirit. RPM, SELinux, and some lovely rices.
 
@@ -235,7 +232,7 @@
 
 <br>
 
-## ⚡ Void Linux
+## Void Linux
 
 > No systemd. Fast. Rare. Rices here have character.
 
@@ -247,7 +244,7 @@
 
 <br>
 
-## 🐋 Debian
+## Debian
 
 > The universal OS. Stable, trusted, and yes, it can look great too.
 
