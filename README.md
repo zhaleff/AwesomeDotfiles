@@ -125,6 +125,9 @@
 
 > Tiling done right — for those who want i3 on Wayland without the extras.
 
+- **[Szorfein/dotfiles](https://github.com/szorfein/dotfiles)** — `Szorfein`  
+  Modular & extensible · Waybar · swaync · rofi · Spicetify theme · light/dark switcher
+
 - **[vyrx-dev/dotfiles](https://github.com/vyrx-dev/dotfiles.git)** — `vyrx-dev`  
   Deliberately boring · dev-focused · this is where you actually get things done
 
