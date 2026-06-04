@@ -32,7 +32,7 @@ function Dropdown({ label, options, value, onChange }) {
         className={clsx(
           'flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all border',
           active
-            ? 'bg-surface border-border text-black'
+            ? 'bg-surface border-border text-white/40'
             : 'bg-white/[0.04] border-white/8 text-white/40 hover:text-white hover:border-white/15'
         )}
       >
