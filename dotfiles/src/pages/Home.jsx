@@ -66,8 +66,6 @@ export default function Home() {
         transition={{ duration: 0.5, delay: 0.15 }}
         className="pb-28"
       >
-
-
         <div className="flex items-center justify-between mb-8">
           <p className="text-sm text-white/40">Recent submissions</p>
           <Link to="/gallery" className="text-xs text-white/25 hover:text-accent">
@@ -88,7 +86,7 @@ function RecentPreviews() {
   useEffect(() => {
     supabase
       .from('rices')
-      .select('id, title, author, image_url, wm, distro')
+      .select('id, slug, title, author, image_url, wm, distro')
       .eq('status', 'approved')
       .order('created_at', { ascending: false })
       .limit(6)
@@ -113,7 +111,7 @@ function RecentPreviews() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: i * 0.05 }}
         >
-          <Link to={`/rice/${rice.id}`} className="group block rounded-xl overflow-hidden border border-white/8 bg-white/[0.02] hover:border-[#e8ff47]/25">
+          <Link to={`/rice/${rice.slug}`} className="group block rounded-xl overflow-hidden border border-white/8 bg-white/[0.02] hover:border-accent/25">
             <div className="aspect-video overflow-hidden bg-black relative">
               {rice.image_url ? (
                 <img src={rice.image_url} alt={rice.title} className="w-full h-full object-cover" loading="lazy" />
