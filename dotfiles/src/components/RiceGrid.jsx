@@ -8,7 +8,7 @@ import RiceCard from './RiceCard'
 import clsx from 'clsx'
 
 const WM_OPTIONS = ['All', 'Niri', 'Hyprland', 'i3', 'MangoWM', 'Sway', 'Omarchy', 'bspwm', 'dwm', 'Qtile', 'AwesomeWM', 'XFCE', 'MiracleWM', 'KDE', 'GNOME']
-const DISTRO_OPTIONS = ['All', 'Arch', 'NixOS', 'Debian', 'Fedora', 'Ubuntu', 'Void', 'Gentoo', 'EndeavourOS', 'openSUSE']
+const DISTRO_OPTIONS = ['All', 'Arch', 'NixOS', 'Debian', 'Fedora', 'Ubuntu', 'Void', 'Gentoo', 'EndeavourOS', 'CachyOS', 'Pop!OS', 'openSUSE']
 
 const SORT_OPTIONS = [
   { label: 'Recent', value: 'recent', icon: faClock, field: 'created_at' },
