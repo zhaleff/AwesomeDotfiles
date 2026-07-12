@@ -20,7 +20,7 @@ import clsx from 'clsx'
 import toast from 'react-hot-toast'
 
 const EASE = [0.16, 1, 0.3, 1]
-
+const FUNCTIONS_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/vote`
 function IconButton({ icon, label, active, tone = 'default', onClick }) {
   return (
     <button
@@ -145,12 +145,9 @@ export default function RiceDetail() {
         setRiceId(data.id)
 
 
-        const ipHash = await getIpHash()
-        const { data: existingVote } = await supabase.rpc('get_vote', {
-          p_rice_id: data.id,
-          p_ip: ipHash,
-        })
-        if (existingVote) setVote(existingVote)
+        const voteRes = await fetch(`${FUNCTIONS_URL}?rice_id=${data.id}`)
+        const voteData = await voteRes.json()
+        if (voteData.vote) setVote(voteData.vote)
 
       } catch {
         setNotFound(true)
@@ -161,18 +158,18 @@ export default function RiceDetail() {
     fetchRice()
   }, [slug])
 
-  async function handleVote(type) {
+async function handleVote(type) {
     if (voting || !riceId) return
     setVoting(true)
 
     try {
-      const ipHash = await getIpHash()
-      const { data, error } = await supabase.rpc('cast_vote', {
-        p_rice_id: riceId,
-        p_ip: ipHash,
-        p_vote_type: type,
+      const res = await fetch(FUNCTIONS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rice_id: riceId, vote_type: type }),
       })
-      if (error) throw error
+      const data = await res.json()
+      if (data.error) throw new Error(data.error)
 
       setVote(data.vote)
       setRice((p) => (p ? { ...p, likes: data.likes, dislikes: data.dislikes } : null))
