@@ -5,23 +5,20 @@
 @import "@fontsource/playfair-display/700.css";
 
 @theme {
-  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", serif;
+  --color-accent: #D9A25E;
+  --color-accent-dim: #B8863F;
+
+  --color-surface: #0E0D0B;
+  --color-surface-2: #16140F;
+  --color-surface-3: #1E1B14;
+
+  --color-border: #2B271D;
+
+  --color-text: #EDEAE3;
+  --color-text-dim: #A69E8E;
+  --color-muted: #6B6355;
 
 
-  --color-accent: #8FD9B6;
-  --color-accent-dim: #6BAE8F;
-  --color-accent-container: #1C3A2E;
-
-  --color-surface: #0D110F;
-  --color-surface-2: #16211C;
-  --color-surface-3: #1D2A24;
-
-  --color-border: #2A3A33;
-  --color-muted: #7A9188;
-
-  --color-text: #E3E9E5;
-  --color-text-dim: #A9B8B1;
 }
 
 * {
