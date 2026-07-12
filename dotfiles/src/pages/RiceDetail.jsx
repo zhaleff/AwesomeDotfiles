@@ -144,28 +144,14 @@ export default function RiceDetail() {
         setRice(data)
         setRiceId(data.id)
 
-        if (!localStorage.getItem(`viewed_${slug}`)) {
-          await supabase.rpc('increment_views', { row_id: data.id })
-          localStorage.setItem(`viewed_${slug}`, '1')
-        }
 
-        const localVote = localStorage.getItem(`vote_${slug}`)
-        if (localVote) {
-          setVote(localVote)
-        } else {
-          const ipHash = await getIpHash()
-          const { data: existing } = await supabase
-            .from('votes')
-            .select('vote_type')
-            .eq('rice_id', data.id)
-            .eq('vote_ip', ipHash)
-            .maybeSingle()
+        const ipHash = await getIpHash()
+        const { data: existingVote } = await supabase.rpc('get_vote', {
+          p_rice_id: data.id,
+          p_ip: ipHash,
+        })
+        if (existingVote) setVote(existingVote)
 
-          if (existing) {
-            setVote(existing.vote_type)
-            localStorage.setItem(`vote_${slug}`, existing.vote_type)
-          }
-        }
       } catch {
         setNotFound(true)
       }
@@ -180,37 +166,16 @@ export default function RiceDetail() {
     setVoting(true)
 
     try {
-      const localKey = `vote_${slug}`
-      const localVote = localStorage.getItem(localKey)
       const ipHash = await getIpHash()
+      const { data, error } = await supabase.rpc('cast_vote', {
+        p_rice_id: riceId,
+        p_ip: ipHash,
+        p_vote_type: type,
+      })
+      if (error) throw error
 
-      let nl = rice.likes ?? 0
-      let nd = rice.dislikes ?? 0
-
-      if (localVote === type) {
-        if (type === 'up') nl--
-        else nd--
-        localStorage.removeItem(localKey)
-        setVote(null)
-        await supabase.from('votes').delete().eq('rice_id', riceId).eq('vote_ip', ipHash)
-      } else if (localVote) {
-        if (localVote === 'up') nl--
-        else nd--
-        if (type === 'up') nl++
-        else nd++
-        localStorage.setItem(localKey, type)
-        setVote(type)
-        await supabase.from('votes').update({ vote_type: type }).eq('rice_id', riceId).eq('vote_ip', ipHash)
-      } else {
-        if (type === 'up') nl++
-        else nd++
-        localStorage.setItem(localKey, type)
-        setVote(type)
-        await supabase.from('votes').insert({ rice_id: riceId, vote_ip: ipHash, vote_type: type })
-      }
-
-      await supabase.from('rices').update({ likes: Math.max(0, nl), dislikes: Math.max(0, nd) }).eq('id', riceId)
-      setRice((p) => (p ? { ...p, likes: Math.max(0, nl), dislikes: Math.max(0, nd) } : null))
+      setVote(data.vote)
+      setRice((p) => (p ? { ...p, likes: data.likes, dislikes: data.dislikes } : null))
     } catch {
       toast.error('Failed to vote')
     }
