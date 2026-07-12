@@ -32,6 +32,8 @@
 
 <br>
 
+<!-- RICES:START -->
+
 ## 🐧 Arch Linux
 
 <br>
@@ -256,6 +258,9 @@
 
 <br>
 
+
+<!-- RICES:END -->
+ 
 ## ✦ Contributing
 
 Want your setup in here? Submit it at **[awesome-dotfiles.web.app](https://awesome-dotfiles.vercel.app)** with a screenshot, color palette, and dotfiles link. Once approved it shows up on the site *and* in this index.
