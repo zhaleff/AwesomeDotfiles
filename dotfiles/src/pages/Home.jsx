@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import { supabase } from '../lib/supabase'
+
+const EASE = [0.22, 1, 0.36, 1]
 
 export default function Home() {
   const [total, setTotal] = useState(null)
@@ -18,47 +20,51 @@ export default function Home() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
-
-      <section className="pt-36 pb-28">
+      <section className="pt-36 pb-24">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: EASE }}
         >
-          <div className="flex items-center gap-3 mb-8">
-            {total !== null && (
-              <span className="text-xs text-white/20">{total.toLocaleString()} setups indexed</span>
-            )}
-          </div>
 
           <div className="flex flex-col lg:flex-row lg:items-end gap-10 mb-10">
-            <div className="flex-1">
-              <h1 className="text-6xl sm:text-7xl lg:text-8xl tracking-[-0.05em] leading-[0.9] text-text">
-                Built for <br />
-                <span className='text-6xl sm:text-7xl lg:text-8xl tracking-[-0.05em] leading-[0.9] text-accent'>you</span>
-              </h1>
-            </div>
-            <p className="text-base text-white/35 max-w-sm leading-relaxed lg:mb-2">
+            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-semibold tracking-[-0.05em] leading-[0.9] text-text">
+              Built for <br />
+              <span className="text-accent">you</span>
+            </h1>
+            <p className="text-base text-text-dim max-w-sm leading-relaxed lg:mb-2">
               The central hub for Linux desktop configurations. Discover setups, color palettes, and dotfiles from the community.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link to="/gallery" className="flex items-center gap-2 px-6 py-3 rounded-full bg-accent hover:bg-white text-black text-sm">
+            <Link
+              to="/gallery"
+              className="group flex items-center gap-2 px-6 py-3.5 hover:scale-110 transition-transform duration-400 rounded-full bg-accent hover:bg-accent-dim text-surface text-[14px] font-semibold transition-colors duration-200 cursor-pointer"
+            >
               Browse gallery
-              <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" />
+              <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5 transition-transform duration-400 group-hover:translate-x-0.5" />
             </Link>
-            <Link to="/submit" className="flex items-center px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white/50 hover:text-white text-sm">
+            <Link
+              to="/submit"
+              className="flex items-center px-6 py-3.5 rounded-full bg-surface-2 hover:scale-110 transition-transform duration-400 hover:bg-surface-3 text-text-dim hover:text-text text-[14px] font-medium transition-colors duration-200 cursor-pointer"
+            >
               Submit your rice
             </Link>
-            <a href="https://reddit.com/r/unixporn" target="_blank" rel="noreferrer" className="flex items-center px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white/30 hover:text-white text-sm">
+            <a
+              href="https://reddit.com/r/unixporn"
+              target="_blank"
+              rel="noreferrer"
+              className="group flex items-center gap-1.5 px-6 py-3.5  rounded-full hover:scale-110 transition-transform duration-400  text-muted hover:text-text-dim text-[14px] transition-colors duration-200 cursor-pointer"
+            >
               r/unixporn
+              <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </a>
           </div>
         </motion.div>
       </section>
 
-      <div className="border-t border-white/5 mb-20" />
+      <div className="border-t border-border mb-20" />
 
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -66,16 +72,22 @@ export default function Home() {
         transition={{ duration: 0.5, delay: 0.15 }}
         className="pb-28"
       >
-        <div className="flex items-center justify-between mb-8">
-          <p className="text-sm text-white/40">Recent submissions</p>
-          <Link to="/gallery" className="text-xs text-white/25 hover:text-accent">
-            View all →
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <p className="text-[15px] font-semibold text-text">Fresh from the community</p>
+            <p className="text-[13px] text-muted mt-0.5">New setups, added daily</p>
+          </div>
+          <Link
+            to="/gallery"
+            className="group flex items-center gap-1.5 text-[13px] text-text-dim hover:text-accent hover:scale-110 transition-colors duration-200 cursor-pointer flex-shrink-0"
+          >
+            View all
+            <FontAwesomeIcon icon={faArrowRight} className="w-2.5 h-2.5 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
         </div>
 
         <RecentPreviews />
       </motion.section>
-
     </div>
   )
 }
@@ -94,13 +106,15 @@ function RecentPreviews() {
       .catch(() => { })
   }, [])
 
-  if (!rices.length) return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="aspect-video rounded-xl bg-white/[0.03] animate-pulse border border-white/5" />
-      ))}
-    </div>
-  )
+  if (!rices.length) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="aspect-video rounded-2xl bg-surface-2 animate-pulse" />
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -109,26 +123,32 @@ function RecentPreviews() {
           key={rice.id}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, delay: i * 0.05 }}
+          transition={{ duration: 0.4, delay: i * 0.06, ease: EASE }}
         >
-          <Link to={`/rice/${rice.slug}`} className="group block rounded-xl overflow-hidden border border-white/8 bg-white/[0.02] hover:border-accent/25">
-            <div className="aspect-video overflow-hidden bg-black relative">
+          <Link to={`/rice/${rice.slug}`} className="group block rounded-2xl overflow-hidden bg-surface-2">
+            <div className="aspect-video overflow-hidden relative bg-surface-3">
               {rice.image_url ? (
-                <img src={rice.image_url} alt={rice.title} className="w-full h-full object-cover" loading="lazy" />
+                <img
+                  src={rice.image_url}
+                  alt={rice.title}
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  loading="lazy"
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-[10px] text-white/10 uppercase tracking-widest">no preview</span>
+                  <span className="text-[10px] text-muted">No preview</span>
                 </div>
               )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               {rice.wm && (
-                <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/70 backdrop-blur-sm border border-white/10 text-[10px] text-white/60">
+                <span className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full bg-surface/80 text-[10.5px] font-medium text-text-dim">
                   {rice.wm}
                 </span>
               )}
             </div>
-            <div className="p-4 flex items-center justify-between">
-              <p className="text-sm text-white/70 group-hover:text-white line-clamp-1">{rice.title}</p>
-              <span className="text-xs text-white/20 flex-shrink-0 ml-2">{rice.author ?? 'anon'}</span>
+            <div className="px-3.5 py-3 flex items-center justify-between">
+              <p className="text-[13.5px] font-medium text-text truncate">{rice.title}</p>
+              <span className="text-[12px] text-muted flex-shrink-0 ml-2">{rice.author ?? 'anon'}</span>
             </div>
           </Link>
         </motion.div>
