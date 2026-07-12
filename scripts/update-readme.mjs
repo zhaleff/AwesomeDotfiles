@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { readFileSync, writeFileSync } from 'fs'
+import ws from 'ws'
 
 const SUPABASE_URL = process.env.SUPABASE_URL
 const SUPABASE_KEY = process.env.SUPABASE_KEY
@@ -13,7 +14,9 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
   process.exit(1)
 }
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  realtime: { transport: ws },
+})
 
 async function fetchRices() {
   const { data, error } = await supabase
