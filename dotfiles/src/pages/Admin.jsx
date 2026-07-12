@@ -5,10 +5,128 @@ import { useAuth } from '../context/AuthContext'
 import { formatDistanceToNow } from 'date-fns'
 import toast from 'react-hot-toast'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faXmark, faArrowRightFromBracket, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faXmark, faArrowRightFromBracket, faSpinner, faEye } from '@fortawesome/free-solid-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
+
+const EASE = [0.16, 1, 0.3, 1]
+
+function Tag({ children }) {
+  return (
+    <span className="px-2.5 py-1 rounded-full bg-surface-3 text-[11px] font-medium text-text-dim">
+      {children}
+    </span>
+  )
+}
+
+function RiceReviewCard({ rice, isActing, onApprove, onReject }) {
+  const createdDate = rice.created_at ? new Date(rice.created_at) : null
+
+  return (
+    <div className="rounded-2xl bg-surface-2 overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-[240px_1fr]">
+        <div className="aspect-video md:aspect-auto bg-surface-3 relative">
+          {rice.image_url ? (
+            <img src={rice.image_url} alt={rice.title} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="text-[11px] text-muted">No image</span>
+            </div>
+          )}
+          <span className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface/85 text-[10.5px] font-medium text-accent">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            Pending review
+          </span>
+        </div>
+
+        <div className="p-5 flex flex-col justify-between gap-4">
+          <div className="flex flex-col gap-3">
+            <div>
+              <h2 className="text-[16px] font-semibold text-text leading-snug">{rice.title}</h2>
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
+                <div className="w-5.5 h-5.5 rounded-full bg-surface-3 flex items-center justify-center text-[10px] font-semibold text-accent">
+                  {rice.author?.[0]?.toUpperCase() ?? '?'}
+                </div>
+                <span className="text-[13px] text-text-dim">{rice.author || 'anonymous'}</span>
+                {createdDate && (
+                  <span className="text-[12px] text-muted">
+                    · {formatDistanceToNow(createdDate, { addSuffix: true })}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-1.5">
+              {rice.wm && <Tag>{rice.wm}</Tag>}
+              {rice.distro && <Tag>{rice.distro}</Tag>}
+            </div>
+
+            {rice.description && (
+              <p className="text-[13px] text-text-dim leading-relaxed line-clamp-2">{rice.description}</p>
+            )}
+
+            {rice.palette?.length > 0 && (
+              <div className="flex items-center -space-x-1">
+                {rice.palette.slice(0, 10).map((color, i) => (
+                  <div
+                    key={i}
+                    className="w-4 h-4 rounded-full ring-2 ring-surface-2"
+                    style={{ backgroundColor: color }}
+                  />
+                ))}
+              </div>
+            )}
+
+            <div className="flex items-center gap-4">
+              {rice.github_url && (
+                <a
+                  href={rice.github_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[12px] text-text-dim hover:text-text transition-colors duration-200 truncate cursor-pointer"
+                >
+                  <FontAwesomeIcon icon={faGithub} className="w-3 h-3 flex-shrink-0" />
+                  {rice.github_url.replace('https://github.com/', '')}
+                </a>
+              )}
+              {rice.slug && (
+                <a
+                  href={`/rice/${rice.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[12px] text-text-dim hover:text-text transition-colors duration-200 cursor-pointer"
+                >
+                  <FontAwesomeIcon icon={faEye} className="w-3 h-3" />
+                  Preview
+                </a>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 pt-4 border-t border-border">
+            <button
+              onClick={onApprove}
+              disabled={isActing}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-accent text-surface hover:bg-accent-dim text-[12.5px] font-semibold transition-colors duration-200 disabled:opacity-40 cursor-pointer"
+            >
+              <FontAwesomeIcon icon={isActing ? faSpinner : faCheck} className={clsx('w-3 h-3', isActing && 'animate-spin')} />
+              Approve
+            </button>
+            <button
+              onClick={onReject}
+              disabled={isActing}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-3 text-red-300 hover:bg-surface text-[12.5px] font-semibold transition-colors duration-200 disabled:opacity-40 cursor-pointer"
+            >
+              <FontAwesomeIcon icon={isActing ? faSpinner : faXmark} className={clsx('w-3 h-3', isActing && 'animate-spin')} />
+              Reject
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Admin() {
   const { user, initialized } = useAuth()
@@ -75,25 +193,26 @@ export default function Admin() {
     navigate('/admin/login')
   }
 
-  if (!initialized) return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-5 h-5 rounded-full border-2 border-white/10 border-t-[#e8ff47] animate-spin" />
-    </div>
-  )
+  if (!initialized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="w-6 h-6 rounded-full border-2 border-border border-t-accent animate-spin" />
+      </div>
+    )
+  }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-20 pb-24">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-24">
       <div className="flex items-center justify-between mb-10">
         <div>
-          <p className="text-[10px] font-mono uppercase tracking-widest text-white/20 mb-1">Admin</p>
-          <h1 className="text-xl font-semibold text-white tracking-tight">Pending submissions</h1>
-          <p className="text-xs text-white/25 font-mono mt-1">
-            {loading ? '...' : `${rices.length} waiting for review`}
+          <h1 className="text-2xl font-semibold text-text tracking-tight">Pending submissions</h1>
+          <p className="text-[13px] text-text-dim mt-1">
+            {loading ? 'Loading…' : `${rices.length} waiting for review`}
           </p>
         </div>
         <button
           onClick={logout}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/[0.04] border border-white/8 text-[11px] text-white/30 hover:text-white/60 hover:border-white/15 transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-2 hover:bg-surface-3 text-[12.5px] font-medium text-text-dim hover:text-text transition-colors duration-200 cursor-pointer"
         >
           <FontAwesomeIcon icon={faArrowRightFromBracket} className="w-3 h-3" />
           Sign out
@@ -101,134 +220,38 @@ export default function Admin() {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center py-32">
-          <div className="w-5 h-5 rounded-full border-2 border-white/10 border-t-[#e8ff47] animate-spin" />
+        <div className="flex flex-col gap-4">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div key={i} className="rounded-2xl bg-surface-2 h-40 animate-pulse" />
+          ))}
         </div>
       ) : rices.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-32 gap-2 text-center">
-          <div className="w-10 h-10 rounded-xl bg-[#e8ff47]/8 border border-[#e8ff47]/15 flex items-center justify-center mb-2">
-            <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-[#e8ff47]/60" />
+        <div className="flex flex-col items-center justify-center py-32 gap-3 text-center">
+          <div className="w-12 h-12 rounded-full bg-surface-2 flex items-center justify-center">
+            <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-accent" />
           </div>
-          <p className="text-sm font-medium text-white/40">All clear</p>
-          <p className="text-xs text-white/20 font-mono">no pending submissions</p>
+          <p className="text-[14px] font-medium text-text">All clear</p>
+          <p className="text-[12.5px] text-muted">No pending submissions</p>
         </div>
       ) : (
         <div className="flex flex-col gap-4">
           <AnimatePresence>
-            {rices.map((rice, i) => {
-              const createdDate = rice.created_at ? new Date(rice.created_at) : null
-              const isActing = acting === rice.id
-              return (
-                <motion.div
-                  key={rice.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, x: -12, scale: 0.98 }}
-                  transition={{ duration: 0.25, delay: i * 0.03 }}
-                  className="rounded-xl border border-white/8 bg-white/[0.02] overflow-hidden"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
-                    {/* Image */}
-                    <div className="aspect-video md:aspect-auto bg-black/40 overflow-hidden relative">
-                      {rice.image_url ? (
-                        <img
-                          src={rice.image_url}
-                          alt={rice.title}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-[10px] font-mono text-white/15 uppercase tracking-widest">
-                          no image
-                        </div>
-                      )}
-                      {/* pending badge over image */}
-                      <div className="absolute top-2.5 left-2.5">
-                        <span className="px-2 py-0.5 rounded-md bg-black/60 border border-yellow-500/30 text-[10px] font-mono text-yellow-400 backdrop-blur-sm">
-                          pending
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Info */}
-                    <div className="p-5 flex flex-col justify-between gap-4">
-                      <div className="flex flex-col gap-3">
-                        <div>
-                          <h2 className="text-base font-semibold text-white leading-snug">{rice.title}</h2>
-                          <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                            <div className="w-5 h-5 rounded-md bg-[#e8ff47]/10 border border-[#e8ff47]/20 flex items-center justify-center text-[8px] font-bold text-[#e8ff47]">
-                              {rice.author?.[0]?.toUpperCase() ?? '?'}
-                            </div>
-                            <span className="text-xs text-white/40">{rice.author || 'anonymous'}</span>
-                            {rice.wm && (
-                              <span className="px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/8 text-[10px] text-white/35 font-mono">
-                                {rice.wm}
-                              </span>
-                            )}
-                            {rice.distro && (
-                              <span className="px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/8 text-[10px] text-white/35 font-mono">
-                                {rice.distro}
-                              </span>
-                            )}
-                            {createdDate && (
-                              <span className="text-[10px] text-white/20 font-mono">
-                                {formatDistanceToNow(createdDate, { addSuffix: true })}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        {rice.description && (
-                          <p className="text-xs text-white/35 leading-relaxed line-clamp-2">{rice.description}</p>
-                        )}
-
-                        {rice.palette?.length > 0 && (
-                          <div className="flex items-center gap-1.5">
-                            {rice.palette.slice(0, 10).map((color, i) => (
-                              <div
-                                key={i}
-                                className="w-4 h-4 rounded-sm border border-white/10"
-                                style={{ backgroundColor: color }}
-                              />
-                            ))}
-                          </div>
-                        )}
-
-                        {rice.github_url && (
-                          <a
-                            href={rice.github_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-[11px] text-white/25 hover:text-white/50 transition-colors font-mono truncate max-w-xs w-fit"
-                          >
-                            <FontAwesomeIcon icon={faGithub} className="w-3 h-3 flex-shrink-0" />
-                            {rice.github_url.replace('https://github.com/', '')}
-                          </a>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-2 pt-4 border-t border-white/[0.05]">
-                        <button
-                          onClick={() => approve(rice.id)}
-                          disabled={isActing}
-                          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#e8ff47]/8 border border-[#e8ff47]/20 text-[#e8ff47] hover:bg-[#e8ff47]/15 text-xs font-medium transition-all disabled:opacity-40"
-                        >
-                          <FontAwesomeIcon icon={isActing ? faSpinner : faCheck} className={clsx('w-3 h-3', isActing && 'animate-spin')} />
-                          Approve
-                        </button>
-                        <button
-                          onClick={() => reject(rice.id)}
-                          disabled={isActing}
-                          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-red-500/8 border border-red-500/20 text-red-400 hover:bg-red-500/15 text-xs font-medium transition-all disabled:opacity-40"
-                        >
-                          <FontAwesomeIcon icon={isActing ? faSpinner : faXmark} className={clsx('w-3 h-3', isActing && 'animate-spin')} />
-                          Reject
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )
-            })}
+            {rices.map((rice, i) => (
+              <motion.div
+                key={rice.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, x: -12, scale: 0.98 }}
+                transition={{ duration: 0.3, delay: i * 0.03, ease: EASE }}
+              >
+                <RiceReviewCard
+                  rice={rice}
+                  isActing={acting === rice.id}
+                  onApprove={() => approve(rice.id)}
+                  onReject={() => reject(rice.id)}
+                />
+              </motion.div>
+            ))}
           </AnimatePresence>
         </div>
       )}
