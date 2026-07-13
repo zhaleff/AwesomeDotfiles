@@ -222,11 +222,10 @@ export default function Submit() {
   const [submitting, setSubmitting] = useState(false)
   const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
-  const [license, setLicense] = useState('')
   const [palette, setPalette] = useState([])
   const [turnstileToken, setTurnstileToken] = useState(null)
   const [colorInput, setColorInput] = useState('#')
-  const { register, handleSubmit, getValues, watch, trigger, setValue, setError, clearErrors, formState: { errors } } = useForm({ defaultValues: { wm: '', distro: '' } })
+  const { register, handleSubmit, getValues, watch, trigger, setValue, setError, clearErrors, formState: { errors } } = useForm({ defaultValues: { wm: '', distro: '', license: '' } })
 
   const ipRef = useRef(null)
   const [rateLimit, setRateLimit] = useState({ loading: true, allowed: true, retryAfter: 0 })
@@ -235,10 +234,12 @@ export default function Submit() {
   const author = watch('author')
   const wm = watch('wm')
   const distro = watch('distro')
+  const license = watch('license')
   const githubUrl = watch('githubUrl')
 
   register('wm', { required: 'Select a WM / DE' })
   register('distro', { required: 'Select a distro' })
+  register('license', { required: 'Select a license' })
   useEffect(() => {
     (async () => {
       const ip = await getClientIp()
@@ -288,13 +289,8 @@ export default function Submit() {
       if (!valid) return
     }
     if (step === 2) {
-      const githubUrl = getValues('githubUrl')
-      if (githubUrl) {
-        const valid = await trigger('githubUrl')
-        if (!valid) return
-      } else {
-        await trigger('githubUrl')
-      }
+      const valid = await trigger(['license', 'githubUrl'])
+      if (!valid) return
     }
     setStep((s) => s + 1)
   }
@@ -302,7 +298,7 @@ export default function Submit() {
   const onSubmit = async (data) => {
     if (!rateLimit.allowed) return
 
-    const valid = await trigger(['title', 'wm', 'distro', 'githubUrl'])
+    const valid = await trigger(['title', 'wm', 'distro', 'license', 'githubUrl'])
     if (!valid) return
     if (!turnstileToken) { toast.error('Please complete the captcha.'); return }
 
@@ -466,14 +462,17 @@ export default function Submit() {
 
             {step === 2 && (
               <motion.div key="step2" variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }} className="flex flex-col gap-6">
-                <div className="relative">
-                  <FontAwesomeIcon icon={faGithub} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted w-4 h-4" />
-                  <Field className="pl-11" placeholder="https://github.com/you/dotfiles" error={errors.githubUrl} {...register('githubUrl', { pattern: { value: /^https?:\/\/(?:www\.)?github\.com\/[a-zA-Z0-9._-]+\/[a-zA-Z0-9._-]+(?:\/)?$/, message: 'Must be a GitHub repo URL (e.g. https://github.com/user/repo)' }, validate: async (value) => { if (!value) return true; const m = value.match(/github\.com\/([^/]+)\/([^/?#]+)/); if (!m) return 'Invalid GitHub repo URL'; try { const r = await fetch(`https://api.github.com/repos/${m[1]}/${m[2]}`); if (r.status === 404) return 'Repository not found'; if (!r.ok) return 'Could not verify repository'; return true } catch { return 'Could not verify repository' } } })} />
+                <div>
+                  <div className="relative">
+                    <FontAwesomeIcon icon={faGithub} className="absolute left-4 inset-y-0 m-auto text-muted w-4 h-4" />
+                    <Field className="pl-11" placeholder="https://github.com/you/dotfiles" error={errors.githubUrl} {...register('githubUrl', { required: 'GitHub repo URL is required', pattern: { value: /^https?:\/\/(?:www\.)?github\.com\/[a-zA-Z0-9._-]+\/[a-zA-Z0-9._-]+(?:\/)?$/, message: 'Must be a GitHub repo URL (e.g. https://github.com/user/repo)' }, validate: async (value) => { const m = value.match(/github\.com\/([^/]+)\/([^/?#]+)/); if (!m) return 'Invalid GitHub repo URL'; try { const r = await fetch(`https://api.github.com/repos/${m[1]}/${m[2]}`); if (r.status === 404) return 'Repository not found'; if (!r.ok) return 'Could not verify repository'; return true } catch { return 'Could not verify repository' } } })} />
+                  </div>
                   {errors.githubUrl && <p className="text-xs text-red-300 mt-1.5">{errors.githubUrl.message}</p>}
                 </div>
                 <div>
                   <FieldHint>License</FieldHint>
-                  <Chips options={LICENSE_OPTIONS} value={license} onChange={setLicense} />
+                  <Chips options={LICENSE_OPTIONS} value={license} onChange={(val) => { setValue('license', val); clearErrors('license') }} error={errors.license} />
+                  {errors.license && <p className="text-xs text-red-300 mt-1.5">{errors.license.message}</p>}
                 </div>
                 <div>
                   <FieldHint>Color palette</FieldHint>
@@ -506,7 +505,7 @@ export default function Submit() {
                   <button type="button" onClick={() => setStep(1)} className="flex items-center gap-2 px-5 py-3.5 rounded-full bg-surface-2 text-text-dim hover:bg-surface-3 hover:text-text text-sm cursor-pointer transition-colors duration-200">
                     <FontAwesomeIcon icon={faArrowLeft} className="w-3.5 h-3.5" /> Back
                   </button>
-                  <button type="button" onClick={() => setStep(3)} className="flex items-center justify-center gap-2 flex-1 py-3.5 rounded-full bg-accent hover:bg-accent-dim text-surface text-sm cursor-pointer transition-colors duration-200">
+                  <button type="button" onClick={next} className="flex items-center justify-center gap-2 flex-1 py-3.5 rounded-full bg-accent hover:bg-accent-dim text-surface text-sm cursor-pointer transition-colors duration-200">
                     Review <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" />
                   </button>
                 </div>
