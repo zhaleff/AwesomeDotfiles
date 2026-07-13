@@ -82,9 +82,9 @@ function Textarea({ ...props }) {
   )
 }
 
-function Chips({ options, value, onChange }) {
+function Chips({ options, value, onChange, error }) {
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className={clsx('flex flex-wrap gap-1.5', error && 'ring-1 ring-red-400/40 rounded-xl p-2')}>
       {options.map((opt) => (
         <button
           key={opt}
@@ -228,7 +228,7 @@ export default function Submit() {
   const [palette, setPalette] = useState([])
   const [turnstileToken, setTurnstileToken] = useState(null)
   const [colorInput, setColorInput] = useState('#')
-  const { register, handleSubmit, getValues, watch, trigger, formState: { errors } } = useForm()
+  const { register, handleSubmit, getValues, watch, trigger, setError, clearErrors, formState: { errors } } = useForm()
 
   const ipRef = useRef(null)
   const [rateLimit, setRateLimit] = useState({ loading: true, allowed: true, retryAfter: 0 })
@@ -281,16 +281,16 @@ export default function Submit() {
   const next = async () => {
     if (step === 0 && !imageFile) { toast.error('Please upload a screenshot first.'); return }
     if (step === 1) {
-      const valid = await trigger('title')
+      const valid = await trigger(['title', 'wm', 'distro'])
       if (!valid) return
-      if (!wm) { toast.error('Please select a WM / DE.'); return }
-      if (!distro) { toast.error('Please select a distro.'); return }
     }
     if (step === 2) {
       const githubUrl = getValues('githubUrl')
       if (githubUrl) {
         const valid = await trigger('githubUrl')
         if (!valid) return
+      } else {
+        await trigger('githubUrl')
       }
     }
     setStep((s) => s + 1)
@@ -298,7 +298,10 @@ export default function Submit() {
 
   const onSubmit = async (data) => {
     if (!rateLimit.allowed) return
-    if (!wm || !distro) { toast.error('Missing required fields.'); setSubmitting(false); return }
+
+    const valid = await trigger(['title', 'wm', 'distro', 'githubUrl'])
+    if (!valid) return
+    if (!turnstileToken) { toast.error('Please complete the captcha.'); return }
 
     setSubmitting(true)
     const toastId = toast.loading('Uploading...')
@@ -437,14 +440,18 @@ export default function Submit() {
                   <Field placeholder="Author (optional)" {...register('author')} />
                 </div>
                 <Textarea rows={3} placeholder="Description — what makes your setup special..." {...register('description')} />
-                <div>
-                  <FieldHint>Window manager / DE</FieldHint>
-                  <Chips options={WM_OPTIONS} value={wm} onChange={setWm} />
-                </div>
-                <div>
-                  <FieldHint>Distro</FieldHint>
-                  <Chips options={DISTRO_OPTIONS} value={distro} onChange={setDistro} />
-                </div>
+                  <div>
+                    <FieldHint>Window manager / DE</FieldHint>
+                    <input type="hidden" {...register('wm', { required: 'Select a WM / DE' })} value={wm} onChange={() => {}} />
+                    <Chips options={WM_OPTIONS} value={wm} onChange={(val) => { setWm(val); clearErrors('wm') }} error={errors.wm} />
+                    {errors.wm && <p className="text-xs text-red-300 mt-1.5">{errors.wm.message}</p>}
+                  </div>
+                  <div>
+                    <FieldHint>Distro</FieldHint>
+                    <input type="hidden" {...register('distro', { required: 'Select a distro' })} value={distro} onChange={() => {}} />
+                    <Chips options={DISTRO_OPTIONS} value={distro} onChange={(val) => { setDistro(val); clearErrors('distro') }} error={errors.distro} />
+                    {errors.distro && <p className="text-xs text-red-300 mt-1.5">{errors.distro.message}</p>}
+                  </div>
                 <div className="flex gap-3 pt-2">
                   <button type="button" onClick={() => setStep(0)} className="flex items-center gap-2 px-5 py-3.5 rounded-full bg-surface-2 text-text-dim hover:bg-surface-3 hover:text-text text-sm cursor-pointer transition-colors duration-200">
                     <FontAwesomeIcon icon={faArrowLeft} className="w-3.5 h-3.5" /> Back
@@ -460,7 +467,7 @@ export default function Submit() {
               <motion.div key="step2" variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }} className="flex flex-col gap-6">
                 <div className="relative">
                   <FontAwesomeIcon icon={faGithub} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted w-4 h-4" />
-                  <Field className="pl-11" placeholder="https://github.com/you/dotfiles" error={errors.githubUrl} {...register('githubUrl', { pattern: { value: /^https?:\/\/(?:www\.)?github\.com\/[a-zA-Z0-9._-]+\/[a-zA-Z0-9._-]+(?:\/)?$/, message: 'Must be a GitHub repo URL (e.g. https://github.com/user/repo)' } })} />
+                  <Field className="pl-11" placeholder="https://github.com/you/dotfiles" error={errors.githubUrl} {...register('githubUrl', { pattern: { value: /^https?:\/\/(?:www\.)?github\.com\/[a-zA-Z0-9._-]+\/[a-zA-Z0-9._-]+(?:\/)?$/, message: 'Must be a GitHub repo URL (e.g. https://github.com/user/repo)' }, validate: async (value) => { if (!value) return true; const m = value.match(/github\.com\/([^/]+)\/([^/?#]+)/); if (!m) return 'Invalid GitHub repo URL'; try { const r = await fetch(`https://api.github.com/repos/${m[1]}/${m[2]}`); if (r.status === 404) return 'Repository not found'; if (!r.ok) return 'Could not verify repository'; return true } catch { return 'Could not verify repository' } } })} />
                   {errors.githubUrl && <p className="text-xs text-red-300 mt-1.5">{errors.githubUrl.message}</p>}
                 </div>
                 <div>
