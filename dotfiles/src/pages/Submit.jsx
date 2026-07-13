@@ -222,20 +222,23 @@ export default function Submit() {
   const [submitting, setSubmitting] = useState(false)
   const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
-  const [wm, setWm] = useState('')
-  const [distro, setDistro] = useState('')
   const [license, setLicense] = useState('')
   const [palette, setPalette] = useState([])
   const [turnstileToken, setTurnstileToken] = useState(null)
   const [colorInput, setColorInput] = useState('#')
-  const { register, handleSubmit, getValues, watch, trigger, setError, clearErrors, formState: { errors } } = useForm()
+  const { register, handleSubmit, getValues, watch, trigger, setValue, setError, clearErrors, formState: { errors } } = useForm({ defaultValues: { wm: '', distro: '' } })
 
   const ipRef = useRef(null)
   const [rateLimit, setRateLimit] = useState({ loading: true, allowed: true, retryAfter: 0 })
 
   const title = watch('title')
   const author = watch('author')
+  const wm = watch('wm')
+  const distro = watch('distro')
   const githubUrl = watch('githubUrl')
+
+  register('wm', { required: 'Select a WM / DE' })
+  register('distro', { required: 'Select a distro' })
   useEffect(() => {
     (async () => {
       const ip = await getClientIp()
@@ -442,14 +445,12 @@ export default function Submit() {
                 <Textarea rows={3} placeholder="Description — what makes your setup special..." {...register('description')} />
                   <div>
                     <FieldHint>Window manager / DE</FieldHint>
-                    <input type="hidden" {...register('wm', { required: 'Select a WM / DE' })} value={wm} onChange={() => {}} />
-                    <Chips options={WM_OPTIONS} value={wm} onChange={(val) => { setWm(val); clearErrors('wm') }} error={errors.wm} />
+                    <Chips options={WM_OPTIONS} value={wm} onChange={(val) => { setValue('wm', val); clearErrors('wm') }} error={errors.wm} />
                     {errors.wm && <p className="text-xs text-red-300 mt-1.5">{errors.wm.message}</p>}
                   </div>
                   <div>
                     <FieldHint>Distro</FieldHint>
-                    <input type="hidden" {...register('distro', { required: 'Select a distro' })} value={distro} onChange={() => {}} />
-                    <Chips options={DISTRO_OPTIONS} value={distro} onChange={(val) => { setDistro(val); clearErrors('distro') }} error={errors.distro} />
+                    <Chips options={DISTRO_OPTIONS} value={distro} onChange={(val) => { setValue('distro', val); clearErrors('distro') }} error={errors.distro} />
                     {errors.distro && <p className="text-xs text-red-300 mt-1.5">{errors.distro.message}</p>}
                   </div>
                 <div className="flex gap-3 pt-2">
