@@ -47,7 +47,7 @@
 ### Hyprland
 
 <details>
-<summary><strong>Arch</strong> (15)</summary>
+<summary><strong>Arch</strong> (16)</summary>
 
 - **[binoymanoj/dotfiles](https://github.com/binoymanoj/dotfiles)** — `anonymous`  
 - **[NotAShelf/dotfiles](https://github.com/NotAShelf/dotfiles)** — `NotAshelf`  
@@ -58,6 +58,8 @@
   BlackNode a simple, basic dotfile for hyprland, hyprland configurations, nvim, etc
 - **[Cybersnake223/Hypr](https://github.com/Cybersnake223/Hypr)** — `cybersnake223`  
   A minimal, keyboard-driven Hyprland dotfiles setup for Arch Linux. Laptop-first. Script-heavy. Zero bloat. 
+- **[zhaleff/BlackNode](https://github.com/zhaleff/BlackNode)** — `zhaleff`  
+  A classic dotfile built with the traditional dotfile staples of the past, featuring dynamic colors and a touch of Material You 3.
 - **[zhaleff/hyprcraft](https://github.com/zhaleff/hyprcraft)** — `Zhaleff`  
   Dotfile minimal yet beautiful, simple yet fast, so you can build your own dotfile
 - **[AdiKsOnDev/Monoland](https://github.com/AdiKsOnDev/Monoland)** — `AdiKsOn`  
