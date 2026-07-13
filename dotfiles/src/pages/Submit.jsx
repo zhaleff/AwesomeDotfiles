@@ -228,7 +228,7 @@ export default function Submit() {
   const [palette, setPalette] = useState([])
   const [turnstileToken, setTurnstileToken] = useState(null)
   const [colorInput, setColorInput] = useState('#')
-  const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm()
+  const { register, handleSubmit, getValues, watch, trigger, formState: { errors } } = useForm()
 
   const ipRef = useRef(null)
   const [rateLimit, setRateLimit] = useState({ loading: true, allowed: true, retryAfter: 0 })
@@ -278,19 +278,27 @@ export default function Submit() {
     setColorInput('#')
   }
 
-  const next = () => {
+  const next = async () => {
     if (step === 0 && !imageFile) { toast.error('Please upload a screenshot first.'); return }
     if (step === 1) {
-      const { title } = getValues()
-      if (!title) { toast.error('Title is required.'); return }
+      const valid = await trigger('title')
+      if (!valid) return
       if (!wm) { toast.error('Please select a WM / DE.'); return }
       if (!distro) { toast.error('Please select a distro.'); return }
+    }
+    if (step === 2) {
+      const githubUrl = getValues('githubUrl')
+      if (githubUrl) {
+        const valid = await trigger('githubUrl')
+        if (!valid) return
+      }
     }
     setStep((s) => s + 1)
   }
 
   const onSubmit = async (data) => {
     if (!rateLimit.allowed) return
+    if (!wm || !distro) { toast.error('Missing required fields.'); setSubmitting(false); return }
 
     setSubmitting(true)
     const toastId = toast.loading('Uploading...')
@@ -423,8 +431,8 @@ export default function Submit() {
               <motion.div key="step1" variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }} className="flex flex-col gap-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <Field placeholder="Title — e.g. Minimal Hyprland + Catppuccin" error={errors.title} {...register('title', { required: true })} />
-                    {errors.title && <p className="text-xs text-red-300 mt-1.5">Title is required.</p>}
+                    <Field placeholder="Title — e.g. Minimal Hyprland + Catppuccin" error={errors.title} {...register('title', { required: { value: true, message: 'Title is required' }, minLength: { value: 3, message: 'Title must be at least 3 characters' } })} />
+                    {errors.title && <p className="text-xs text-red-300 mt-1.5">{errors.title.message}</p>}
                   </div>
                   <Field placeholder="Author (optional)" {...register('author')} />
                 </div>
@@ -452,7 +460,8 @@ export default function Submit() {
               <motion.div key="step2" variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }} className="flex flex-col gap-6">
                 <div className="relative">
                   <FontAwesomeIcon icon={faGithub} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted w-4 h-4" />
-                  <Field className="pl-11" placeholder="https://github.com/you/dotfiles" {...register('githubUrl')} />
+                  <Field className="pl-11" placeholder="https://github.com/you/dotfiles" error={errors.githubUrl} {...register('githubUrl', { pattern: { value: /^https?:\/\/(?:www\.)?github\.com\/[a-zA-Z0-9._-]+\/[a-zA-Z0-9._-]+(?:\/)?$/, message: 'Must be a GitHub repo URL (e.g. https://github.com/user/repo)' } })} />
+                  {errors.githubUrl && <p className="text-xs text-red-300 mt-1.5">{errors.githubUrl.message}</p>}
                 </div>
                 <div>
                   <FieldHint>License</FieldHint>
