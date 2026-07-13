@@ -4,12 +4,16 @@ import { useForm } from 'react-hook-form'
 import { useDropzone } from 'react-dropzone'
 import { motion, AnimatePresence } from 'framer-motion'
 import toast from 'react-hot-toast'
+import { Turnstile } from '@marsidev/react-turnstile'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark, faArrowRight, faArrowLeft, faCircleNotch, faCloudArrowUp, faCheck, faClock } from '@fortawesome/free-solid-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { supabase } from '../lib/supabase'
 import { uploadImage } from '../lib/imgbb'
 import clsx from 'clsx'
+
+
+
 
 const WM_OPTIONS = ['Hyprland', 'Niri', 'i3', 'Sway', 'MangoWM', 'bspwm', 'dwm', 'Omarchy', 'Qtile', 'AwesomeWM', 'XFCE', 'KDE', 'GNOME', 'Other']
 const DISTRO_OPTIONS = ['Arch', 'NixOS', 'Debian', 'Fedora', 'Ubuntu', 'Void', 'Gentoo', 'EndeavourOS', 'CachyOS', 'Pop!_OS', 'openSUSE', 'Other']
@@ -22,7 +26,7 @@ const STEP_HINTS = [
   'Almost there. These fields are optional but they get more likes.',
   'Last step — this is exactly how your card will look.',
 ]
-const RATE_LIMIT_MINUTES = 60
+const RATE_LIMIT_MINUTES = 5
 
 function generateSlug(author, title) {
   const base = `${author || 'anonymous'}-${title}`
@@ -33,6 +37,8 @@ function generateSlug(author, title) {
   const suffix = Math.random().toString(36).slice(2, 8)
   return `${base}-${suffix}`
 }
+
+
 
 function formatCountdown(totalSeconds) {
   const m = Math.floor(totalSeconds / 60)
@@ -220,6 +226,7 @@ export default function Submit() {
   const [distro, setDistro] = useState('')
   const [license, setLicense] = useState('')
   const [palette, setPalette] = useState([])
+  const [turnstileToken, setTurnstileToken] = useState(null)
   const [colorInput, setColorInput] = useState('#')
   const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm()
 
@@ -229,7 +236,6 @@ export default function Submit() {
   const title = watch('title')
   const author = watch('author')
   const githubUrl = watch('githubUrl')
-
   useEffect(() => {
     (async () => {
       const ip = await getClientIp()
@@ -253,6 +259,7 @@ export default function Submit() {
 
       setRateLimit({ loading: false, allowed: data.allowed, retryAfter: data.retry_after_seconds })
     })()
+
   }, [])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -293,19 +300,33 @@ export default function Submit() {
 
       const slug = generateSlug(data.author, data.title)
 
-      const { error } = await supabase.from('rices').insert({
-        title: data.title,
-        author: data.author || 'anonymous',
-        description: data.description || '',
-        github_url: data.githubUrl || '',
-        notes: data.notes || '',
-        wm, distro, palette, license, image_url,
-        slug,
-        status: 'pending',
-        views: 0, likes: 0, dislikes: 0,
-      })
-      if (error) throw error
+      const { error } = await supabase.functions.invoke(
+        "submit-rice",
+        {
+          body: {
+            turnstileToken,
+            riceData: {
+              title: data.title,
+              author: data.author || "anonymous",
+              description: data.description || "",
+              github_url: data.githubUrl || "",
+              notes: data.notes || "",
+              wm,
+              distro,
+              palette,
+              license,
+              image_url,
+              slug,
+              status: "pending",
+              views: 0,
+              likes: 0,
+              dislikes: 0,
+            },
+          },
+        }
+      )
 
+      if (error) throw error
       if (ipRef.current) {
         await supabase.rpc('record_submission_attempt', { p_ip: ipRef.current })
       }
@@ -487,11 +508,18 @@ export default function Submit() {
                   </div>
                 )}
                 <p className="text-[11px] text-center text-muted">Your submission will be reviewed before appearing publicly.</p>
+
+                <Turnstile
+                  siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  options={{ theme: 'dark' }}
+                />
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setStep(2)} className="flex items-center gap-2 px-5 py-3.5 rounded-full bg-surface-2 text-text-dim hover:bg-surface-3 hover:text-text text-sm cursor-pointer transition-colors duration-200">
                     <FontAwesomeIcon icon={faArrowLeft} className="w-3.5 h-3.5" /> Back
                   </button>
-                  <button type="submit" disabled={submitting} className="flex items-center justify-center gap-2 flex-1 py-3.5 rounded-full bg-accent hover:bg-accent-dim disabled:opacity-40 text-surface text-sm cursor-pointer transition-colors duration-200">
+
+                  <button type="submit" disabled={submitting || !turnstileToken} className="flex items-center justify-center gap-2 flex-1 py-3.5 rounded-full bg-accent hover:bg-accent-dim disabled:opacity-40 text-surface text-sm cursor-pointer transition-colors duration-200">
                     {submitting ? <FontAwesomeIcon icon={faCircleNotch} className="animate-spin w-4 h-4" /> : <><span>Submit rice</span><FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" /></>}
                   </button>
                 </div>
