@@ -121,10 +121,10 @@ This project is made for personal use although I'm happy to implement additional
 <details>
 <summary><strong>Arch</strong> (2)</summary>
 
-- **[Jotalea/i3-dots](https://github.com/Jotalea/i3-dots)** — `Jotalea`  
-  this rice is inspired by the Geometry Dash level "Nullscapes", with the grayscale low-poly mountains background.
 - **[sajidbytes/CLUNUX](https://github.com/sajidbytes/CLUNUX)** — `SajidBytes`  
   This is my personal rice of i3wm with a warm orange gruvbox like theme. I've decided to make this after CLU from TRON.
+- **[Jotalea/i3-dots](https://github.com/Jotalea/i3-dots)** — `Jotalea`  
+  this rice is inspired by the Geometry Dash level "Nullscapes", with the grayscale low-poly mountains background.
 
 </details>
 
