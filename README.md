@@ -68,8 +68,6 @@ Sleek animations, MaterialUI-style components, dynamic color-detection based
 on the selected Wallpaper. 
 - **[nickjj/dotfriedrice](https://github.com/nickjj/dotfriedrice)** — `nickjj`  
   An opinionated but customizable set of configs and scripts designed to help you quickly set up your system. It's aimed at anyone who deeply cares about how they use computers (developers, power users, etc.).
-- **[ESHAYAT102/dotfiles](https://github.com/ESHAYAT102/dotfiles)** — `Eshayat Al-Wasiu`  
-  Minimal Omarchy rice
 - **[Aktyn/hyprland-setup](https://github.com/Aktyn/hyprland-setup)** — `Aktyn`  
   It's a comprehensive, feature-rich Hyprland configuration with Quickshell integration, custom SDDM theme, and carefully selected applications for an optimal desktop experience.
 This project is made for personal use although I'm happy to implement additional features upon request.
@@ -79,6 +77,8 @@ This project is made for personal use although I'm happy to implement additional
   An Artix-centered Hyprland rice (that can be adapted for vanilla Arch by changing a few config lines) focused on simplicity, user-friendliness and easy install/management thanks to GNU Stow. Features pre-configured "taskbar/scratchpad" special workspace (Super+Z), dynamic colors via Matugen and Wallust, scripts for installing/deleting packages and changing colors, powered by fzf and YAD, clock widget on the desktop and (coming soon) easy settings script.
 - **[na-ive/nandoroid-shell](https://github.com/na-ive/nandoroid-shell)** — `na-ive`  
    quickshell based hyprland shell, Android custom ROM inspired. 
+- **[ESHAYAT102/dotfiles](https://github.com/ESHAYAT102/dotfiles)** — `Eshayat Al-Wasiu`  
+  Minimal Omarchy rice
 - **[plutonium-sh/lazerbar](https://github.com/plutonium-sh/lazerbar)** — `plutonyumm`  
   it's cool, and it has a lot of features
 
