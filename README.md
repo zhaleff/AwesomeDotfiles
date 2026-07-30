@@ -47,15 +47,13 @@
 ### Hyprland
 
 <details>
-<summary><strong>Arch</strong> (16)</summary>
+<summary><strong>Arch</strong> (17)</summary>
 
 - **[binoymanoj/dotfiles](https://github.com/binoymanoj/dotfiles)** — `anonymous`  
 - **[NotAShelf/dotfiles](https://github.com/NotAShelf/dotfiles)** — `NotAshelf`  
   This is where I periodically throw my configuration files. You might be here for something specific, in that case I recommend that you scroll below for the repository map and find what you are looking for
 - **[HeroHunterIguess/Darkblue-breakcore-Hyprland](https://github.com/HeroHunterIguess/Darkblue-breakcore-Hyprland/tree/main)** — `raylee`  
   Breakcore / alt future styled rice 
-- **[zhaleff/BlackNode](https://github.com/zhaleff/BlackNode)** — `Zhaleff`  
-  BlackNode a simple, basic dotfile for hyprland, hyprland configurations, nvim, etc
 - **[Cybersnake223/Hypr](https://github.com/Cybersnake223/Hypr)** — `cybersnake223`  
   A minimal, keyboard-driven Hyprland dotfiles setup for Arch Linux. Laptop-first. Script-heavy. Zero bloat. 
 - **[zhaleff/BlackNode](https://github.com/zhaleff/BlackNode)** — `zhaleff`  
@@ -72,6 +70,8 @@ on the selected Wallpaper.
   It's a comprehensive, feature-rich Hyprland configuration with Quickshell integration, custom SDDM theme, and carefully selected applications for an optimal desktop experience.
 This project is made for personal use although I'm happy to implement additional features upon request.
 - **[berthosefin/dots](https://github.com/berthosefin/dots)** — `berthosefin`  
+- **[cebem1nt/dotfiles](https://github.com/cebem1nt/dotfiles)** — `cebem1nt`  
+  Modular, well documented hyprland dotfiles built with classic rofi, swaync and waybar. Also incudes a light & dark theme, a collection of wallpapers and scripts. 
 - **[Grey-007/Hyprmat-dots](https://github.com/Grey-007/Hyprmat-dots)** — `Grey-007`  
 - **[doccnova/serene-hyprland](https://codeberg.org/doccnova/serene-hyprland)** — `doccnova`  
   An Artix-centered Hyprland rice (that can be adapted for vanilla Arch by changing a few config lines) focused on simplicity, user-friendliness and easy install/management thanks to GNU Stow. Features pre-configured "taskbar/scratchpad" special workspace (Super+Z), dynamic colors via Matugen and Wallust, scripts for installing/deleting packages and changing colors, powered by fzf and YAD, clock widget on the desktop and (coming soon) easy settings script.
@@ -81,6 +81,8 @@ This project is made for personal use although I'm happy to implement additional
   Minimal Omarchy rice
 - **[plutonium-sh/lazerbar](https://github.com/plutonium-sh/lazerbar)** — `plutonyumm`  
   it's cool, and it has a lot of features
+- **[zhaleff/BlackNode](https://github.com/zhaleff/BlackNode)** — `Zhaleff`  
+  BlackNode a simple, basic dotfile for hyprland, hyprland configurations, nvim, etc
 
 </details>
 
