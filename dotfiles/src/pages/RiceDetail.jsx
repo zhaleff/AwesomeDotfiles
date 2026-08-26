@@ -18,6 +18,7 @@ import { supabase } from '../lib/supabase'
 import { formatDistanceToNow, format } from 'date-fns'
 import clsx from 'clsx'
 import toast from 'react-hot-toast'
+import SEO from '../components/SEO'
 
 const EASE = [0.16, 1, 0.3, 1]
 const FUNCTIONS_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/vote`
@@ -231,6 +232,40 @@ async function handleVote(type) {
           <Lightbox src={rice.image_url} alt={rice.title} onClose={() => setLightbox(false)} />
         )}
       </AnimatePresence>
+
+      <SEO
+        title={rice.title}
+        description={rice.description || `${rice.title} — a Linux desktop configuration by ${rice.author || 'anonymous'} using ${rice.wm || 'unknown'} on ${rice.distro || 'unknown'}. Browse the screenshot, color palette, and dotfiles.`}
+        url={`/rice/${rice.slug}`}
+        image={rice.image_url}
+        type="article"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Gallery', url: '/gallery' },
+          { name: rice.title },
+        ]}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: rice.title,
+          description: rice.description || `${rice.title} — Linux desktop configuration`,
+          author: {
+            '@type': 'Person',
+            name: rice.author || 'anonymous',
+          },
+          image: rice.image_url,
+          url: `https://awesomedotfiles.vercel.app/rice/${rice.slug}`,
+          datePublished: rice.created_at,
+          publisher: {
+            '@type': 'Organization',
+            name: 'Awesome Dotfiles',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://awesomedotfiles.vercel.app/favicon.png',
+            },
+          },
+        }}
+      />
 
       <motion.div
         initial={{ opacity: 0 }}
