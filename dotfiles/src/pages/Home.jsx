@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import { supabase } from '../lib/supabase'
+import SEO from '../components/SEO'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -20,6 +21,12 @@ export default function Home() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <SEO
+        title="Linux Desktop Configurations & Dotfiles Gallery"
+        description="Discover and share Linux desktop configurations, color palettes, and dotfiles from the community. Browse rices for Hyprland, i3, Sway, and more."
+        url="/"
+        type="website"
+      />
       <section className="pt-36 pb-24">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
