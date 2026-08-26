@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import SEO from '../components/SEO'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -37,6 +38,15 @@ function Section({ number, title, children }) {
 export default function About() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-32">
+      <SEO
+        title="About"
+        description="Learn about Awesome Dotfiles — a community-maintained gallery for Linux desktop configurations. Discover the tech stack, how submissions work, and how to share your own rice."
+        url="/about"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'About' },
+        ]}
+      />
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
