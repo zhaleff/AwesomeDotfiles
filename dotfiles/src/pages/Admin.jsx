@@ -9,6 +9,7 @@ import { faCheck, faXmark, faArrowRightFromBracket, faSpinner, faEye } from '@fo
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
+import SEO from '../components/SEO'
 
 const EASE = [0.16, 1, 0.3, 1]
 
@@ -203,6 +204,12 @@ export default function Admin() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-24">
+      <SEO
+        title="Admin Panel"
+        description="Admin moderation panel for Awesome Dotfiles. Review and manage community submissions."
+        url="/admin"
+        type="website"
+      />
       <div className="flex items-center justify-between mb-10">
         <div>
           <h1 className="text-2xl font-semibold text-text tracking-tight">Pending submissions</h1>

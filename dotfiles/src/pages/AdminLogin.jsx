@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
+import SEO from '../components/SEO'
 
 const EASE = [0.16, 1, 0.3, 1]
 
@@ -31,6 +32,11 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
+      <SEO
+        title="Admin Login"
+        description="Sign in to the Awesome Dotfiles admin panel."
+        url="/admin/login"
+      />
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
