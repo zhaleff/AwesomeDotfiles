@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+Sitemap: https://awesomedotfiles.vercel.app/sitemap.xml
