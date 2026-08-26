@@ -11,6 +11,7 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { supabase } from '../lib/supabase'
 import { uploadImage } from '../lib/imgbb'
 import clsx from 'clsx'
+import SEO from '../components/SEO'
 
 
 
@@ -375,6 +376,16 @@ export default function Submit() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-28 pb-24">
+      <SEO
+        title="Submit Your Rice"
+        description="Share your Linux desktop configuration with the community. Upload a screenshot, add details about your window manager, distro, and color palette."
+        url="/submit"
+        type="website"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Submit' },
+        ]}
+      />
       <div className="mb-10">
         <h1 className="text-3xl font-semibold tracking-tight text-text mb-2">Share your setup</h1>
         <p className="text-sm text-text-dim">{STEP_HINTS[step]}</p>
