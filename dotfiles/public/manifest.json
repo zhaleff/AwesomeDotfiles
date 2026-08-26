@@ -1,0 +1,21 @@
+{
+  "name": "Awesome Dotfiles",
+  "short_name": "AwesomeDotfiles",
+  "description": "The central hub for Linux desktop configurations. Discover setups, color palettes, and dotfiles shared by the community.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0b",
+  "theme_color": "#0a0a0b",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
